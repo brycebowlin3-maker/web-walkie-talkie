@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web Walkie</title>
+</head>
+<body style="font-family:Arial;text-align:center;padding:40px">
+
+<h1>📻 Web Walkie</h1>
+
+<button id="mic" style="font-size:20px;padding:20px">
+🎙️ Test Microphone
+</button>
+
+<p id="result">Waiting...</p>
+
+<script>
+document.getElementById("mic").onclick = async () => {
+  try {
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        audio:true
+      });
+
+    document.getElementById("result").textContent =
+      "✅ MICROPHONE WORKS!";
+
+    stream.getTracks().forEach(t => t.stop());
+
+  } catch(e) {
+    document.getElementById("result").textContent =
+      "❌ " + e.name + ": " + e.message;
+  }
+};
+</script>
+
+</body>
+</html>
