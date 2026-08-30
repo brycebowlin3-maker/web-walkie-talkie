@@ -9,126 +9,128 @@
 <title>Web Walkie Talkie</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-html,body {
+html,body{
   margin:0;
   min-height:100%;
-  background:#080b10;
+  background:#070a0f;
   color:white;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
-body {
+body{
   padding:
-    max(15px,env(safe-area-inset-top))
-    max(15px,env(safe-area-inset-right))
-    max(15px,env(safe-area-inset-bottom))
-    max(15px,env(safe-area-inset-left));
+    max(12px,env(safe-area-inset-top))
+    max(12px,env(safe-area-inset-right))
+    max(12px,env(safe-area-inset-bottom))
+    max(12px,env(safe-area-inset-left));
 }
 
-.app {
-  max-width:500px;
-  min-height:calc(100vh - 30px);
+.app{
+  width:100%;
+  max-width:520px;
+  min-height:calc(100vh - 24px);
   margin:auto;
-  background:#121820;
-  border:1px solid #293441;
+  background:#111820;
+  border:1px solid #293541;
   border-radius:28px;
   overflow:hidden;
+  box-shadow:0 20px 70px rgba(0,0,0,.5);
 }
 
-header {
+header{
   text-align:center;
-  padding:25px 20px;
+  padding:24px;
   background:#171f29;
-  border-bottom:1px solid #293441;
+  border-bottom:1px solid #293541;
 }
 
-.logo {
+.logo{
   font-size:46px;
 }
 
-h1 {
-  margin:5px 0 0;
+h1{
+  margin:4px 0 0;
   font-size:28px;
 }
 
-.sub {
-  color:#8995a4;
+.subtitle{
   margin-top:4px;
+  color:#8793a1;
   font-size:13px;
 }
 
-main {
+main{
   padding:20px;
 }
 
-.status {
+.status{
   display:flex;
   align-items:center;
   justify-content:center;
   gap:9px;
   padding:13px;
   border-radius:15px;
-  background:#0a0f15;
-  border:1px solid #293441;
-  font-weight:800;
+  background:#090e14;
+  border:1px solid #293541;
+  font-weight:900;
   margin-bottom:20px;
 }
 
-.dot {
+.dot{
   width:11px;
   height:11px;
   border-radius:50%;
-  background:#687483;
+  background:#697482;
 }
 
-.dot.yellow {
+.dot.yellow{
   background:#ffd43b;
-  box-shadow:0 0 12px #ffd43b;
+  box-shadow:0 0 14px #ffd43b;
 }
 
-.dot.green {
+.dot.green{
   background:#2ee875;
-  box-shadow:0 0 12px #2ee875;
+  box-shadow:0 0 14px #2ee875;
 }
 
-.dot.red {
+.dot.red{
   background:#ff4757;
-  box-shadow:0 0 12px #ff4757;
+  box-shadow:0 0 14px #ff4757;
 }
 
-.label {
-  font-size:11px;
-  color:#7e8b9a;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:1px;
+.label{
   margin-bottom:8px;
+  color:#7f8b99;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
 }
 
-input[type=text] {
+input[type=text]{
   width:100%;
   height:55px;
-  border-radius:14px;
+  padding:0 16px;
   border:1px solid #34404d;
+  border-radius:14px;
+  outline:none;
   background:#090e14;
   color:white;
-  outline:none;
-  padding:0 16px;
   font-size:18px;
-  font-weight:800;
+  font-weight:900;
   text-transform:uppercase;
 }
 
-input[type=text]:focus {
-  border-color:#6674ff;
+input[type=text]:focus{
+  border-color:#5865f2;
 }
 
-button {
+button{
   width:100%;
   min-height:54px;
   margin-top:10px;
@@ -139,156 +141,158 @@ button {
   font-size:15px;
   font-weight:900;
   touch-action:manipulation;
+  -webkit-user-select:none;
+  user-select:none;
 }
 
-button:active {
+button:active{
   transform:scale(.98);
 }
 
-button:disabled {
+button:disabled{
   opacity:.45;
 }
 
-.primary {
+.primary{
   background:#5865f2;
 }
 
-.danger {
+.danger{
   background:#d9364f;
 }
 
-.hidden {
+.hidden{
   display:none!important;
 }
 
-.info {
-  color:#7e8997;
+.help{
+  margin-top:10px;
+  color:#788493;
   font-size:12px;
   line-height:1.5;
-  margin-top:10px;
 }
 
-.live {
-  text-align:center;
+.live{
   padding:12px;
   border-radius:14px;
-  color:#7cf5a8;
   background:rgba(46,232,117,.08);
-  border:1px solid rgba(46,232,117,.2);
+  border:1px solid rgba(46,232,117,.22);
+  color:#79f4a5;
+  text-align:center;
   font-weight:900;
 }
 
-.roomTitle {
-  text-align:center;
-  color:#7e8997;
-  font-size:11px;
+.roomLabel{
   margin-top:18px;
+  color:#788493;
+  text-align:center;
+  font-size:11px;
 }
 
-.roomCode {
+.roomCode{
+  margin-top:3px;
   text-align:center;
-  font-size:28px;
+  font-size:29px;
   font-weight:1000;
   letter-spacing:4px;
-  margin-top:3px;
 }
 
-.radio {
+.radio{
   width:250px;
   height:250px;
   margin:22px auto;
-  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#1b242e;
   border:10px solid #2e3946;
+  border-radius:50%;
+  background:#1b242e;
   box-shadow:
     inset 0 0 35px rgba(0,0,0,.8),
-    0 20px 50px rgba(0,0,0,.35);
+    0 20px 50px rgba(0,0,0,.4);
 }
 
-.talk {
+.talk{
   width:155px;
   height:155px;
   margin:0;
+  border:8px solid #3c4657;
   border-radius:50%;
   background:#5865f2;
-  border:8px solid #3c4657;
   box-shadow:0 8px 30px rgba(88,101,242,.4);
 }
 
-.talk.active {
+.talk.active{
   background:#e0314f;
-  box-shadow:0 0 45px rgba(224,49,79,.7);
+  box-shadow:0 0 45px rgba(224,49,79,.75);
 }
 
-.talkIcon {
+.talkIcon{
   display:block;
   font-size:34px;
 }
 
-.talkText {
+.talkText{
   display:block;
-  font-size:13px;
   margin-top:4px;
+  font-size:13px;
 }
 
-.talkStatus {
+.wave{
+  height:30px;
+  color:#667384;
   text-align:center;
-  font-weight:900;
-  margin-bottom:18px;
-}
-
-.wave {
-  text-align:center;
-  color:#647180;
   font-size:24px;
   letter-spacing:7px;
-  height:30px;
 }
 
-.wave.active {
+.wave.active{
   animation:pulse .5s infinite alternate;
 }
 
-@keyframes pulse {
-  from {opacity:.35}
-  to {opacity:1}
+@keyframes pulse{
+  from{opacity:.3}
+  to{opacity:1}
 }
 
-.controls {
+.talkStatus{
+  margin-bottom:18px;
+  text-align:center;
+  font-weight:900;
+}
+
+.controls{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
 
-.controls button {
+.controls button{
   margin:0;
 }
 
-.divider {
+.divider{
   height:1px;
-  background:#293441;
   margin:22px 0;
+  background:#293541;
 }
 
-input[type=range] {
+input[type=range]{
   width:100%;
 }
 
-.log {
-  max-height:130px;
+.log{
+  max-height:140px;
   overflow:auto;
   padding:11px;
+  border:1px solid #252f3a;
   border-radius:13px;
   background:#090e14;
-  border:1px solid #252f3a;
   color:#8793a2;
   font:11px monospace;
 }
 
-.log div {
+.log div{
   margin-bottom:5px;
 }
 </style>
@@ -301,7 +305,7 @@ input[type=range] {
 <header>
   <div class="logo">📻</div>
   <h1>WEB WALKIE</h1>
-  <div class="sub">Live WebRTC voice</div>
+  <div class="subtitle">Live WebRTC voice</div>
 </header>
 
 <main>
@@ -311,14 +315,17 @@ input[type=range] {
   <span id="status">Not connected</span>
 </div>
 
-<!-- JOIN -->
 
-<section id="join">
+<!-- JOIN SCREEN -->
 
-  <div class="label">Room Code</div>
+<section id="joinScreen">
+
+  <div class="label">
+    Room Code
+  </div>
 
   <input
-    id="room"
+    id="roomInput"
     type="text"
     maxlength="20"
     autocomplete="off"
@@ -326,34 +333,34 @@ input[type=range] {
     placeholder="BRYCE123">
 
   <button
-    id="joinBtn"
+    id="joinButton"
     class="primary">
     📻 JOIN ROOM
   </button>
 
-  <button id="randomBtn">
+  <button id="randomButton">
     🎲 RANDOM ROOM
   </button>
 
-  <div class="info">
-    Enter the same room code on two devices.
-    The first device waits and the second device
-    automatically connects.
+  <div class="help">
+    The first device automatically creates the room.
+    The second device enters the same code and connects.
   </div>
 
 </section>
 
-<!-- WALKIE -->
+
+<!-- WALKIE SCREEN -->
 
 <section
-  id="walkie"
+  id="walkieScreen"
   class="hidden">
 
   <div class="live">
-    🟢 WEBRTC READY
+    🟢 WEBRTC WALKIE
   </div>
 
-  <div class="roomTitle">
+  <div class="roomLabel">
     ROOM
   </div>
 
@@ -362,14 +369,17 @@ input[type=range] {
     class="roomCode">
   </div>
 
+
   <div class="radio">
 
     <button
-      id="talk"
+      id="talkButton"
       class="talk"
       disabled>
 
-      <span class="talkIcon">🎙️</span>
+      <span class="talkIcon">
+        🎙️
+      </span>
 
       <span class="talkText">
         HOLD TO TALK
@@ -379,11 +389,13 @@ input[type=range] {
 
   </div>
 
+
   <div
     id="wave"
     class="wave">
     • • •
   </div>
+
 
   <div
     id="talkStatus"
@@ -391,19 +403,21 @@ input[type=range] {
     Waiting for connection...
   </div>
 
+
   <div class="controls">
 
-    <button id="mute">
+    <button id="muteButton">
       🎙️ Mic On
     </button>
 
     <button
-      id="leave"
+      id="leaveButton"
       class="danger">
       ❌ Leave
     </button>
 
   </div>
+
 
   <div class="divider"></div>
 
@@ -419,18 +433,23 @@ input[type=range] {
     value="1"
     step=".01">
 
+
   <div class="divider"></div>
 
   <div class="label">
     Connection Log
   </div>
 
-  <div id="log" class="log"></div>
+  <div
+    id="log"
+    class="log">
+  </div>
 
 </section>
 
 </main>
 </div>
+
 
 <audio
   id="remoteAudio"
@@ -440,17 +459,23 @@ input[type=range] {
 </audio>
 
 
-<!-- Firebase -->
+<!-- FIREBASE -->
+
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+
 
 <script>
 
-/* =====================================================
-   FIREBASE
-===================================================== */
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
 
 const firebaseConfig = {
+
   apiKey:
     "AIzaSyAwziMLKnyFi8of5AbS3NXOmVQwo1Ngn5M",
 
@@ -471,36 +496,52 @@ const firebaseConfig = {
 
   appId:
     "1:174542114980:web:f4a48ec7fe322030bdd631"
+
 };
+
 
 firebase.initializeApp(firebaseConfig);
 
 const database =
   firebase.database();
 
+const auth =
+  firebase.auth();
 
-/* =====================================================
-   WEBRTC
-===================================================== */
+
+/* =========================================================
+   WEBRTC CONFIG
+========================================================= */
 
 const rtcConfig = {
+
   iceServers: [
+
     {
-      urls:"stun:stun.l.google.com:19302"
+      urls:
+        "stun:stun.l.google.com:19302"
     },
+
     {
-      urls:"stun:stun1.l.google.com:19302"
+      urls:
+        "stun:stun1.l.google.com:19302"
     },
+
     {
-      urls:"stun:stun2.l.google.com:19302"
+      urls:
+        "stun:stun2.l.google.com:19302"
     }
+
   ]
+
 };
 
 
-/* =====================================================
+/* =========================================================
    STATE
-===================================================== */
+========================================================= */
+
+let currentUser = null;
 
 let roomCode = "";
 
@@ -514,186 +555,254 @@ let remoteStream = null;
 
 let isCaller = false;
 
-let isMuted = false;
-
 let isTalking = false;
 
+let isMuted = false;
 
-/* =====================================================
+
+/* =========================================================
    ELEMENTS
-===================================================== */
+========================================================= */
 
-const join =
-  document.getElementById("join");
+const joinScreen =
+  document.getElementById(
+    "joinScreen"
+  );
 
-const walkie =
-  document.getElementById("walkie");
+const walkieScreen =
+  document.getElementById(
+    "walkieScreen"
+  );
 
 const roomInput =
-  document.getElementById("room");
+  document.getElementById(
+    "roomInput"
+  );
 
-const joinBtn =
-  document.getElementById("joinBtn");
+const joinButton =
+  document.getElementById(
+    "joinButton"
+  );
 
-const randomBtn =
-  document.getElementById("randomBtn");
+const randomButton =
+  document.getElementById(
+    "randomButton"
+  );
 
-const talk =
-  document.getElementById("talk");
+const talkButton =
+  document.getElementById(
+    "talkButton"
+  );
 
-const mute =
-  document.getElementById("mute");
+const muteButton =
+  document.getElementById(
+    "muteButton"
+  );
 
-const leave =
-  document.getElementById("leave");
+const leaveButton =
+  document.getElementById(
+    "leaveButton"
+  );
 
-const status =
-  document.getElementById("status");
+const statusText =
+  document.getElementById(
+    "status"
+  );
 
-const dot =
-  document.getElementById("dot");
+const statusDot =
+  document.getElementById(
+    "dot"
+  );
 
 const roomDisplay =
-  document.getElementById("roomDisplay");
+  document.getElementById(
+    "roomDisplay"
+  );
 
 const talkStatus =
-  document.getElementById("talkStatus");
+  document.getElementById(
+    "talkStatus"
+  );
 
 const wave =
-  document.getElementById("wave");
+  document.getElementById(
+    "wave"
+  );
 
 const remoteAudio =
-  document.getElementById("remoteAudio");
+  document.getElementById(
+    "remoteAudio"
+  );
 
 const volume =
-  document.getElementById("volume");
+  document.getElementById(
+    "volume"
+  );
 
 const logBox =
-  document.getElementById("log");
+  document.getElementById(
+    "log"
+  );
 
 
-/* =====================================================
+/* =========================================================
    LOG
-===================================================== */
+========================================================= */
 
-function log(message) {
+function log(message){
 
-  const div =
-    document.createElement("div");
+  const line =
+    document.createElement(
+      "div"
+    );
 
-  div.textContent =
+  line.textContent =
     new Date().toLocaleTimeString() +
     " — " +
     message;
 
-  logBox.appendChild(div);
+  logBox.appendChild(line);
 
   logBox.scrollTop =
     logBox.scrollHeight;
 }
 
 
-/* =====================================================
+/* =========================================================
    STATUS
-===================================================== */
+========================================================= */
 
-function setStatus(text,type) {
+function setStatus(text,type){
 
-  status.textContent =
+  statusText.textContent =
     text;
 
-  dot.className =
+  statusDot.className =
     "dot";
 
-  if(type) {
-    dot.classList.add(type);
+  if(type){
+
+    statusDot.classList.add(
+      type
+    );
+
   }
 }
 
 
-/* =====================================================
-   RANDOM ROOM
-===================================================== */
+/* =========================================================
+   FIREBASE AUTH
+========================================================= */
 
-randomBtn.onclick = function() {
+async function authenticate(){
 
-  const chars =
-    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  if(
+    auth.currentUser
+  ){
 
-  let code = "";
+    currentUser =
+      auth.currentUser;
 
-  for(let i=0;i<6;i++) {
-
-    code +=
-      chars[
-        Math.floor(
-          Math.random()*chars.length
-        )
-      ];
+    return currentUser;
 
   }
 
-  roomInput.value =
-    code;
-};
+
+  log(
+    "🔐 Signing in..."
+  );
 
 
-/* =====================================================
+  const result =
+    await auth.signInAnonymously();
+
+
+  currentUser =
+    result.user;
+
+
+  log(
+    "🔐 Signed in."
+  );
+
+
+  return currentUser;
+
+}
+
+
+/* =========================================================
    MICROPHONE
-===================================================== */
+========================================================= */
 
-async function getMic() {
+async function getMicrophone(){
 
-  if(localStream) {
+  if(localStream){
+
     return localStream;
+
   }
+
 
   if(
     !navigator.mediaDevices ||
     !navigator.mediaDevices.getUserMedia
-  ) {
+  ){
 
     throw new Error(
-      "Microphone API is unavailable."
+      "Safari microphone API is unavailable."
     );
 
   }
 
-  log("Requesting microphone...");
+
+  log(
+    "🎙️ Requesting microphone..."
+  );
+
 
   localStream =
-    await navigator.mediaDevices.getUserMedia({
+    await navigator.mediaDevices
+      .getUserMedia({
 
-      audio:{
-        echoCancellation:true,
-        noiseSuppression:true,
-        autoGainControl:true
-      },
+        audio:{
+          echoCancellation:true,
+          noiseSuppression:true,
+          autoGainControl:true
+        },
 
-      video:false
+        video:false
 
-    });
+      });
+
 
   localStream
     .getAudioTracks()
-    .forEach(track => {
+    .forEach(
+      track => {
 
-      track.enabled =
-        false;
+        track.enabled =
+          false;
 
-    });
+      }
+    );
 
-  log("🎙️ Microphone ready.");
+
+  log(
+    "🎙️ Microphone ready."
+  );
+
 
   return localStream;
+
 }
 
 
-/* =====================================================
+/* =========================================================
    CREATE PEER
-===================================================== */
+========================================================= */
 
-async function createPeer() {
+async function createPeer(){
 
   peer =
     new RTCPeerConnection(
@@ -710,13 +819,15 @@ async function createPeer() {
 
       event.streams[0]
         .getTracks()
-        .forEach(track => {
+        .forEach(
+          track => {
 
-          remoteStream.addTrack(
-            track
-          );
+            remoteStream.addTrack(
+              track
+            );
 
-        });
+          }
+        );
 
 
       remoteAudio.srcObject =
@@ -724,17 +835,21 @@ async function createPeer() {
 
 
       remoteAudio.volume =
-        Number(volume.value);
+        Number(
+          volume.value
+        );
 
 
       remoteAudio.play()
-        .catch(() => {
+        .catch(
+          () => {
 
-          log(
-            "Tap the screen once to enable audio."
-          );
+            log(
+              "Safari is waiting for audio playback."
+            );
 
-        });
+          }
+        );
 
 
       log(
@@ -747,8 +862,13 @@ async function createPeer() {
   peer.onicecandidate =
     event => {
 
-      if(!event.candidate) {
+      if(
+        !event.candidate ||
+        !roomRef
+      ){
+
         return;
+
       }
 
 
@@ -770,26 +890,36 @@ async function createPeer() {
   peer.onconnectionstatechange =
     () => {
 
+      if(!peer){
+
+        return;
+
+      }
+
+
       const state =
         peer.connectionState;
 
 
       log(
-        "WebRTC: " + state
+        "WebRTC: " +
+        state
       );
 
 
       if(
         state === "connected"
-      ) {
+      ){
 
         setStatus(
           "Connected",
           "green"
         );
 
-        talk.disabled =
+
+        talkButton.disabled =
           false;
+
 
         talkStatus.textContent =
           "Ready";
@@ -799,7 +929,7 @@ async function createPeer() {
 
       else if(
         state === "connecting"
-      ) {
+      ){
 
         setStatus(
           "Connecting...",
@@ -811,15 +941,17 @@ async function createPeer() {
 
       else if(
         state === "failed"
-      ) {
+      ){
 
         setStatus(
           "Connection failed",
           "red"
         );
 
-        talk.disabled =
+
+        talkButton.disabled =
           true;
+
 
         talkStatus.textContent =
           "Connection failed";
@@ -829,7 +961,7 @@ async function createPeer() {
 
       else if(
         state === "disconnected"
-      ) {
+      ){
 
         setStatus(
           "Disconnected",
@@ -843,23 +975,25 @@ async function createPeer() {
 
   localStream
     .getTracks()
-    .forEach(track => {
+    .forEach(
+      track => {
 
-      peer.addTrack(
-        track,
-        localStream
-      );
+        peer.addTrack(
+          track,
+          localStream
+        );
 
-    });
+      }
+    );
 
 }
 
 
-/* =====================================================
-   CREATE ROOM
-===================================================== */
+/* =========================================================
+   CREATE NEW ROOM
+========================================================= */
 
-async function createRoom() {
+async function createRoom(){
 
   isCaller =
     true;
@@ -881,24 +1015,19 @@ async function createRoom() {
     );
 
 
-  /*
-   * Create the room.
-   */
-
   await roomRef.set({
 
     createdAt:
       firebase.database.ServerValue.TIMESTAMP,
 
     state:
-      "waiting"
+      "waiting",
+
+    owner:
+      currentUser.uid
 
   });
 
-
-  /*
-   * Listen for answer.
-   */
 
   roomRef
     .child("answer")
@@ -913,14 +1042,14 @@ async function createRoom() {
         if(
           !answer ||
           peer.currentRemoteDescription
-        ) {
+        ){
 
           return;
 
         }
 
 
-        try {
+        try{
 
           await peer.setRemoteDescription(
             new RTCSessionDescription(
@@ -930,14 +1059,14 @@ async function createRoom() {
 
 
           log(
-            "Answer received."
+            "📡 Answer received."
           );
 
-        } catch(error) {
+        }
+        catch(error){
 
           log(
-            "Answer error: " +
-            error.message
+            "Answer error."
           );
 
         }
@@ -945,10 +1074,6 @@ async function createRoom() {
       }
     );
 
-
-  /*
-   * Receive callee ICE.
-   */
 
   roomRef
     .child("calleeCandidates")
@@ -956,7 +1081,7 @@ async function createRoom() {
       "child_added",
       async snapshot => {
 
-        try {
+        try{
 
           await peer.addIceCandidate(
             new RTCIceCandidate(
@@ -964,10 +1089,11 @@ async function createRoom() {
             )
           );
 
-        } catch(error) {
+        }
+        catch(error){
 
           log(
-            "ICE error."
+            "ICE candidate error."
           );
 
         }
@@ -975,10 +1101,6 @@ async function createRoom() {
       }
     );
 
-
-  /*
-   * Create offer.
-   */
 
   const offer =
     await peer.createOffer();
@@ -1013,17 +1135,18 @@ async function createRoom() {
 
 
   log(
-    "📡 Room created."
+    "📻 Room created: " +
+    roomCode
   );
 
 }
 
 
-/* =====================================================
-   JOIN ROOM
-===================================================== */
+/* =========================================================
+   JOIN EXISTING ROOM
+========================================================= */
 
-async function joinExistingRoom() {
+async function joinExistingRoom(){
 
   isCaller =
     false;
@@ -1048,10 +1171,10 @@ async function joinExistingRoom() {
     offerSnapshot.val();
 
 
-  if(!offer) {
+  if(!offer){
 
     throw new Error(
-      "The room is not ready yet."
+      "Room exists but is not ready."
     );
 
   }
@@ -1064,17 +1187,13 @@ async function joinExistingRoom() {
   );
 
 
-  /*
-   * Receive caller ICE.
-   */
-
   roomRef
     .child("callerCandidates")
     .on(
       "child_added",
       async snapshot => {
 
-        try {
+        try{
 
           await peer.addIceCandidate(
             new RTCIceCandidate(
@@ -1082,10 +1201,11 @@ async function joinExistingRoom() {
             )
           );
 
-        } catch(error) {
+        }
+        catch(error){
 
           log(
-            "ICE error."
+            "ICE candidate error."
           );
 
         }
@@ -1093,10 +1213,6 @@ async function joinExistingRoom() {
       }
     );
 
-
-  /*
-   * Create answer.
-   */
 
   const answer =
     await peer.createAnswer();
@@ -1120,19 +1236,26 @@ async function joinExistingRoom() {
     });
 
 
+  await roomRef
+    .child("state")
+    .set(
+      "connected"
+    );
+
+
   log(
-    "📡 Answer sent."
+    "📡 Connected to room."
   );
 
 }
 
 
-/* =====================================================
-   JOIN
-===================================================== */
+/* =========================================================
+   JOIN BUTTON
+========================================================= */
 
-joinBtn.onclick =
-  async function() {
+joinButton.onclick =
+  async function(){
 
     const code =
       roomInput.value
@@ -1144,7 +1267,7 @@ joinBtn.onclick =
         );
 
 
-    if(!code) {
+    if(!code){
 
       alert(
         "Enter a room code."
@@ -1155,41 +1278,43 @@ joinBtn.onclick =
     }
 
 
+    joinButton.disabled =
+      true;
+
+    randomButton.disabled =
+      true;
+
+
     roomCode =
       code;
 
 
-    joinBtn.disabled =
-      true;
-
-    randomBtn.disabled =
-      true;
-
-
-    try {
+    try{
 
       /*
-       * IMPORTANT:
-       *
-       * This is triggered directly
-       * by the user's button press.
-       *
-       * Safari allows the microphone
-       * request here.
+       * Authentication first.
        */
 
-      await getMic();
+      await authenticate();
+
+
+      /*
+       * Microphone request occurs
+       * directly from this button action.
+       */
+
+      await getMicrophone();
 
 
       roomDisplay.textContent =
         roomCode;
 
 
-      join.classList.add(
+      joinScreen.classList.add(
         "hidden"
       );
 
-      walkie.classList.remove(
+      walkieScreen.classList.remove(
         "hidden"
       );
 
@@ -1201,34 +1326,44 @@ joinBtn.onclick =
         );
 
 
-      const existing =
+      const snapshot =
         await roomRef.once(
           "value"
         );
 
 
-      if(existing.exists()) {
+      if(snapshot.exists()){
+
+        /*
+         * Room already exists.
+         */
 
         await joinExistingRoom();
 
-      } else {
+      }
+      else{
+
+        /*
+         * First device creates it.
+         */
 
         await createRoom();
 
       }
 
-    } catch(error) {
+    }
+    catch(error){
 
       console.error(error);
 
       log(
-        "ERROR: " +
+        "❌ " +
         error.message
       );
 
 
       alert(
-        "Could not join room:\n\n" +
+        "Could not join:\n\n" +
         error.message
       );
 
@@ -1236,10 +1371,10 @@ joinBtn.onclick =
       cleanup();
 
 
-      joinBtn.disabled =
+      joinButton.disabled =
         false;
 
-      randomBtn.disabled =
+      randomButton.disabled =
         false;
 
     }
@@ -1247,11 +1382,47 @@ joinBtn.onclick =
   };
 
 
-/* =====================================================
-   HOLD TO TALK
-===================================================== */
+/* =========================================================
+   RANDOM ROOM
+========================================================= */
 
-function startTalking(event) {
+randomButton.onclick =
+  function(){
+
+    const chars =
+      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let code = "";
+
+
+    for(
+      let i=0;
+      i<6;
+      i++
+    ){
+
+      code +=
+        chars[
+          Math.floor(
+            Math.random() *
+            chars.length
+          )
+        ];
+
+    }
+
+
+    roomInput.value =
+      code;
+
+  };
+
+
+/* =========================================================
+   START TALKING
+========================================================= */
+
+function startTalking(event){
 
   event.preventDefault();
 
@@ -1260,7 +1431,7 @@ function startTalking(event) {
     !peer ||
     peer.connectionState !==
       "connected"
-  ) {
+  ){
 
     return;
 
@@ -1270,7 +1441,7 @@ function startTalking(event) {
   if(
     isMuted ||
     isTalking
-  ) {
+  ){
 
     return;
 
@@ -1281,7 +1452,12 @@ function startTalking(event) {
     true;
 
 
-  talk.classList.add(
+  talkButton.classList.add(
+    "active"
+  );
+
+
+  wave.classList.add(
     "active"
   );
 
@@ -1290,36 +1466,41 @@ function startTalking(event) {
     "🔴 TRANSMITTING";
 
 
-  wave.classList.add(
-    "active"
-  );
-
-
-  if(localStream) {
+  if(localStream){
 
     localStream
       .getAudioTracks()
-      .forEach(track => {
+      .forEach(
+        track => {
 
-        track.enabled =
-          true;
+          track.enabled =
+            true;
 
-      });
+        }
+      );
 
   }
 
 }
 
 
-function stopTalking(event) {
+/* =========================================================
+   STOP TALKING
+========================================================= */
 
-  if(event) {
+function stopTalking(event){
+
+  if(event){
+
     event.preventDefault();
+
   }
 
 
-  if(!isTalking) {
+  if(!isTalking){
+
     return;
+
   }
 
 
@@ -1327,7 +1508,7 @@ function stopTalking(event) {
     false;
 
 
-  talk.classList.remove(
+  talkButton.classList.remove(
     "active"
   );
 
@@ -1341,89 +1522,79 @@ function stopTalking(event) {
     "Ready";
 
 
-  if(localStream) {
+  if(localStream){
 
     localStream
       .getAudioTracks()
-      .forEach(track => {
+      .forEach(
+        track => {
 
-        track.enabled =
-          false;
+          track.enabled =
+            false;
 
-      });
+        }
+      );
 
   }
 
 }
 
 
-/* =====================================================
-   POINTER EVENTS
-===================================================== */
+/* =========================================================
+   TALK BUTTON
+========================================================= */
 
-talk.addEventListener(
+talkButton.addEventListener(
   "pointerdown",
   startTalking
 );
 
-talk.addEventListener(
+talkButton.addEventListener(
   "pointerup",
   stopTalking
 );
 
-talk.addEventListener(
+talkButton.addEventListener(
   "pointercancel",
   stopTalking
 );
 
-talk.addEventListener(
+talkButton.addEventListener(
   "pointerleave",
   stopTalking
 );
 
 
-/* =====================================================
+/* =========================================================
    MUTE
-===================================================== */
+========================================================= */
 
-mute.onclick =
-  function() {
+muteButton.onclick =
+  function(){
 
     isMuted =
       !isMuted;
 
 
-    if(isMuted) {
+    if(isMuted){
 
-      mute.textContent =
+      muteButton.textContent =
         "🔇 Mic Muted";
 
-      mute.classList.add(
+
+      muteButton.classList.add(
         "danger"
       );
-
-
-      if(localStream) {
-
-        localStream
-          .getAudioTracks()
-          .forEach(track => {
-
-            track.enabled =
-              false;
-
-          });
-
-      }
 
 
       isTalking =
         false;
 
 
-      talk.classList.remove(
+      talkButton.classList.remove(
         "active"
       );
+
 
       wave.classList.remove(
         "active"
@@ -1433,14 +1604,30 @@ mute.onclick =
       talkStatus.textContent =
         "Mic muted";
 
+
+      if(localStream){
+
+        localStream
+          .getAudioTracks()
+          .forEach(
+            track => {
+
+              track.enabled =
+                false;
+
+            }
+          );
+
+      }
+
     }
+    else{
 
-    else {
-
-      mute.textContent =
+      muteButton.textContent =
         "🎙️ Mic On";
 
-      mute.classList.remove(
+
+      muteButton.classList.remove(
         "danger"
       );
 
@@ -1453,12 +1640,12 @@ mute.onclick =
   };
 
 
-/* =====================================================
+/* =========================================================
    VOLUME
-===================================================== */
+========================================================= */
 
 volume.oninput =
-  function() {
+  function(){
 
     remoteAudio.volume =
       Number(
@@ -1468,51 +1655,67 @@ volume.oninput =
   };
 
 
-/* =====================================================
+/* =========================================================
    LEAVE
-===================================================== */
+========================================================= */
 
-leave.onclick =
-  function() {
+leaveButton.onclick =
+  function(){
 
     cleanup();
 
   };
 
 
-/* =====================================================
+/* =========================================================
    CLEANUP
-===================================================== */
+========================================================= */
 
-function cleanup() {
+function cleanup(){
 
   isTalking =
     false;
 
 
-  if(roomRef) {
+  if(roomRef){
 
     roomRef.off();
+
+    /*
+     * Only remove our room when
+     * we are the caller.
+     */
+
+    if(isCaller){
+
+      roomRef.remove()
+        .catch(
+          () => {}
+        );
+
+    }
 
   }
 
 
-  if(peer) {
+  if(peer){
 
     peer.close();
 
   }
 
 
-  if(localStream) {
+  if(localStream){
 
     localStream
       .getTracks()
-      .forEach(track => {
+      .forEach(
+        track => {
 
-        track.stop();
+          track.stop();
 
-      });
+        }
+      );
 
   }
 
@@ -1529,31 +1732,29 @@ function cleanup() {
   roomRef =
     null;
 
+  roomCode =
+    "";
 
   remoteAudio.srcObject =
     null;
 
 
-  roomCode =
-    "";
-
-
-  walkie.classList.add(
+  walkieScreen.classList.add(
     "hidden"
   );
 
-  join.classList.remove(
+  joinScreen.classList.remove(
     "hidden"
   );
 
 
-  joinBtn.disabled =
+  joinButton.disabled =
     false;
 
-  randomBtn.disabled =
+  randomButton.disabled =
     false;
 
-  talk.disabled =
+  talkButton.disabled =
     true;
 
 
@@ -1562,39 +1763,55 @@ function cleanup() {
   );
 
 
+  talkStatus.textContent =
+    "Waiting for connection...";
+
+
   logBox.innerHTML =
     "";
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SAFETY
-===================================================== */
+========================================================= */
 
 window.addEventListener(
   "blur",
   stopTalking
 );
 
+
 document.addEventListener(
   "visibilitychange",
-  () => {
+  function(){
 
-    if(document.hidden) {
+    if(document.hidden){
+
       stopTalking();
+
     }
 
   }
 );
 
 
-/* =====================================================
-   START
-===================================================== */
+/* =========================================================
+   STARTUP
+========================================================= */
 
 log(
   "📻 Web Walkie loaded."
+);
+
+log(
+  "🔒 HTTPS detected: " +
+  (
+    location.protocol === "https:"
+      ? "YES"
+      : "NO"
+  )
 );
 
 </script>
