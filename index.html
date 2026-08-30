@@ -4,297 +4,463 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 
-<title>Web Walkie Talkie</title>
+<title>Web Walkie</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-  margin:0;
-  min-height:100%;
-  background:#070a0f;
-  color:white;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+margin:0;
+padding:0;
+min-height:100%;
+background:#06090d;
+color:white;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 body{
-  padding:
-    max(12px,env(safe-area-inset-top))
-    max(12px,env(safe-area-inset-right))
-    max(12px,env(safe-area-inset-bottom))
-    max(12px,env(safe-area-inset-left));
+padding:
+max(10px,env(safe-area-inset-top))
+max(10px,env(safe-area-inset-right))
+max(10px,env(safe-area-inset-bottom))
+max(10px,env(safe-area-inset-left));
 }
 
-.app{
-  width:100%;
-  max-width:520px;
-  min-height:calc(100vh - 24px);
-  margin:auto;
-  background:#111820;
-  border:1px solid #293541;
-  border-radius:28px;
-  overflow:hidden;
-  box-shadow:0 20px 70px rgba(0,0,0,.5);
-}
-
-header{
-  text-align:center;
-  padding:24px;
-  background:#171f29;
-  border-bottom:1px solid #293541;
-}
-
-.logo{
-  font-size:46px;
-}
-
-h1{
-  margin:4px 0 0;
-  font-size:28px;
-}
-
-.subtitle{
-  margin-top:4px;
-  color:#8793a1;
-  font-size:13px;
-}
-
-main{
-  padding:20px;
-}
-
-.status{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:9px;
-  padding:13px;
-  border-radius:15px;
-  background:#090e14;
-  border:1px solid #293541;
-  font-weight:900;
-  margin-bottom:20px;
-}
-
-.dot{
-  width:11px;
-  height:11px;
-  border-radius:50%;
-  background:#697482;
-}
-
-.dot.yellow{
-  background:#ffd43b;
-  box-shadow:0 0 14px #ffd43b;
-}
-
-.dot.green{
-  background:#2ee875;
-  box-shadow:0 0 14px #2ee875;
-}
-
-.dot.red{
-  background:#ff4757;
-  box-shadow:0 0 14px #ff4757;
-}
-
-.label{
-  margin-bottom:8px;
-  color:#7f8b99;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
-
-input[type=text]{
-  width:100%;
-  height:55px;
-  padding:0 16px;
-  border:1px solid #34404d;
-  border-radius:14px;
-  outline:none;
-  background:#090e14;
-  color:white;
-  font-size:18px;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-input[type=text]:focus{
-  border-color:#5865f2;
+button,
+input{
+font-family:inherit;
 }
 
 button{
-  width:100%;
-  min-height:54px;
-  margin-top:10px;
-  border:0;
-  border-radius:15px;
-  background:#293542;
-  color:white;
-  font-size:15px;
-  font-weight:900;
-  touch-action:manipulation;
-  -webkit-user-select:none;
-  user-select:none;
+border:0;
+color:white;
+touch-action:manipulation;
+-webkit-user-select:none;
+user-select:none;
+cursor:pointer;
 }
 
 button:active{
-  transform:scale(.98);
+transform:scale(.97);
 }
 
 button:disabled{
-  opacity:.45;
+opacity:.45;
+cursor:not-allowed;
+}
+
+.app{
+width:100%;
+max-width:560px;
+min-height:calc(100vh - 20px);
+margin:auto;
+background:#10161d;
+border:1px solid #27313b;
+border-radius:30px;
+overflow:hidden;
+box-shadow:0 25px 80px rgba(0,0,0,.6);
+}
+
+header{
+padding:24px 20px 20px;
+text-align:center;
+background:
+linear-gradient(
+180deg,
+#18212b,
+#121920
+);
+border-bottom:1px solid #27313b;
+}
+
+.logo{
+font-size:48px;
+line-height:1;
+}
+
+h1{
+margin:7px 0 0;
+font-size:28px;
+font-weight:1000;
+letter-spacing:-.5px;
+}
+
+.subtitle{
+margin-top:4px;
+color:#7f8b99;
+font-size:13px;
+}
+
+main{
+padding:18px;
+}
+
+.status{
+height:48px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:9px;
+background:#080d12;
+border:1px solid #29343f;
+border-radius:15px;
+font-size:14px;
+font-weight:900;
+margin-bottom:17px;
+}
+
+.dot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:#687481;
+}
+
+.dot.yellow{
+background:#ffd43b;
+box-shadow:0 0 14px #ffd43b;
+}
+
+.dot.green{
+background:#2ee875;
+box-shadow:0 0 14px #2ee875;
+}
+
+.dot.red{
+background:#ff4757;
+box-shadow:0 0 14px #ff4757;
+}
+
+.label{
+font-size:10px;
+font-weight:1000;
+letter-spacing:1.2px;
+text-transform:uppercase;
+color:#7d8996;
+margin-bottom:8px;
+}
+
+input[type=text]{
+width:100%;
+height:56px;
+padding:0 16px;
+background:#080d12;
+border:1px solid #34414d;
+border-radius:15px;
+outline:none;
+color:white;
+font-size:18px;
+font-weight:900;
+text-transform:uppercase;
+}
+
+input[type=text]:focus{
+border-color:#6572ff;
 }
 
 .primary{
-  background:#5865f2;
+background:#5865f2;
+}
+
+.secondary{
+background:#293540;
 }
 
 .danger{
-  background:#d9364f;
+background:#d9364f;
 }
 
-.hidden{
-  display:none!important;
+.green{
+background:#199d57;
+}
+
+.joinButton{
+width:100%;
+height:56px;
+margin-top:10px;
+border-radius:15px;
+font-size:15px;
+font-weight:1000;
 }
 
 .help{
-  margin-top:10px;
-  color:#788493;
-  font-size:12px;
-  line-height:1.5;
+margin-top:11px;
+font-size:12px;
+line-height:1.5;
+color:#778391;
+text-align:center;
+}
+
+.hidden{
+display:none!important;
 }
 
 .live{
-  padding:12px;
-  border-radius:14px;
-  background:rgba(46,232,117,.08);
-  border:1px solid rgba(46,232,117,.22);
-  color:#79f4a5;
-  text-align:center;
-  font-weight:900;
+padding:11px;
+border-radius:14px;
+background:rgba(46,232,117,.07);
+border:1px solid rgba(46,232,117,.2);
+text-align:center;
+font-weight:1000;
+color:#6ff2a0;
 }
 
-.roomLabel{
-  margin-top:18px;
-  color:#788493;
-  text-align:center;
-  font-size:11px;
+.roomInfo{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-top:15px;
+}
+
+.roomName{
+flex:1;
 }
 
 .roomCode{
-  margin-top:3px;
-  text-align:center;
-  font-size:29px;
-  font-weight:1000;
-  letter-spacing:4px;
+font-size:26px;
+font-weight:1000;
+letter-spacing:4px;
+}
+
+.copyButton{
+width:85px;
+height:42px;
+border-radius:12px;
+background:#293540;
+font-size:12px;
+font-weight:1000;
 }
 
 .radio{
-  width:250px;
-  height:250px;
-  margin:22px auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:10px solid #2e3946;
-  border-radius:50%;
-  background:#1b242e;
-  box-shadow:
-    inset 0 0 35px rgba(0,0,0,.8),
-    0 20px 50px rgba(0,0,0,.4);
+width:255px;
+height:255px;
+margin:20px auto 16px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+border:10px solid #2d3945;
+background:
+radial-gradient(
+circle,
+#26313c 0%,
+#19232d 50%,
+#111820 100%
+);
+box-shadow:
+inset 0 0 40px rgba(0,0,0,.75),
+0 18px 50px rgba(0,0,0,.4);
 }
 
 .talk{
-  width:155px;
-  height:155px;
-  margin:0;
-  border:8px solid #3c4657;
-  border-radius:50%;
-  background:#5865f2;
-  box-shadow:0 8px 30px rgba(88,101,242,.4);
+width:158px;
+height:158px;
+border-radius:50%;
+border:8px solid #3d4856;
+background:#5865f2;
+box-shadow:0 10px 35px rgba(88,101,242,.4);
 }
 
 .talk.active{
-  background:#e0314f;
-  box-shadow:0 0 45px rgba(224,49,79,.75);
+background:#e0314f;
+box-shadow:
+0 0 20px #e0314f,
+0 0 55px rgba(224,49,79,.65);
 }
 
 .talkIcon{
-  display:block;
-  font-size:34px;
+display:block;
+font-size:35px;
 }
 
 .talkText{
-  display:block;
-  margin-top:4px;
-  font-size:13px;
-}
-
-.wave{
-  height:30px;
-  color:#667384;
-  text-align:center;
-  font-size:24px;
-  letter-spacing:7px;
-}
-
-.wave.active{
-  animation:pulse .5s infinite alternate;
-}
-
-@keyframes pulse{
-  from{opacity:.3}
-  to{opacity:1}
+display:block;
+font-size:12px;
+font-weight:1000;
+margin-top:5px;
 }
 
 .talkStatus{
-  margin-bottom:18px;
-  text-align:center;
-  font-weight:900;
+text-align:center;
+font-weight:1000;
+margin-bottom:14px;
+}
+
+.wave{
+height:27px;
+text-align:center;
+font-size:23px;
+letter-spacing:7px;
+color:#647180;
+}
+
+.wave.active{
+animation:pulse .45s infinite alternate;
+}
+
+@keyframes pulse{
+from{
+opacity:.3;
+transform:scale(.98);
+}
+to{
+opacity:1;
+transform:scale(1.04);
+}
+}
+
+.meter{
+height:8px;
+margin:8px 0 17px;
+border-radius:10px;
+background:#070b10;
+overflow:hidden;
+}
+
+.meterFill{
+width:0%;
+height:100%;
+background:#5865f2;
+transition:width .05s linear;
+}
+
+.section{
+margin-top:18px;
+padding-top:18px;
+border-top:1px solid #27313b;
+}
+
+.members{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.member{
+display:flex;
+align-items:center;
+gap:10px;
+padding:11px;
+border-radius:13px;
+background:#0a0f14;
+border:1px solid #25303a;
+}
+
+.avatar{
+width:37px;
+height:37px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#293540;
+font-size:18px;
+}
+
+.memberInfo{
+flex:1;
+min-width:0;
+}
+
+.memberName{
+font-size:13px;
+font-weight:900;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.memberState{
+margin-top:2px;
+font-size:10px;
+color:#778391;
+}
+
+.owner{
+font-size:10px;
+font-weight:1000;
+color:#ffd43b;
+}
+
+.kick{
+width:62px;
+height:35px;
+margin:0;
+border-radius:10px;
+background:#45212a;
+color:#ff7382;
+font-size:10px;
+font-weight:1000;
 }
 
 .controls{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
 }
 
-.controls button{
-  margin:0;
+.control{
+height:50px;
+border-radius:14px;
+background:#293540;
+font-weight:1000;
+font-size:13px;
 }
 
-.divider{
-  height:1px;
-  margin:22px 0;
-  background:#293541;
+.locked{
+background:#372e13;
+color:#ffd43b;
 }
 
 input[type=range]{
-  width:100%;
+width:100%;
+accent-color:#5865f2;
 }
 
 .log{
-  max-height:140px;
-  overflow:auto;
-  padding:11px;
-  border:1px solid #252f3a;
-  border-radius:13px;
-  background:#090e14;
-  color:#8793a2;
-  font:11px monospace;
+height:110px;
+overflow:auto;
+padding:10px;
+border-radius:12px;
+background:#080c11;
+border:1px solid #222c35;
+color:#778391;
+font:10px monospace;
 }
 
 .log div{
-  margin-bottom:5px;
+margin-bottom:5px;
 }
+
+.toast{
+position:fixed;
+left:50%;
+bottom:25px;
+transform:translateX(-50%);
+padding:12px 17px;
+border-radius:13px;
+background:#202a34;
+border:1px solid #394652;
+box-shadow:0 10px 30px rgba(0,0,0,.4);
+font-size:12px;
+font-weight:900;
+z-index:100;
+opacity:0;
+pointer-events:none;
+transition:.2s;
+}
+
+.toast.show{
+opacity:1;
+}
+
 </style>
 </head>
 
@@ -303,147 +469,215 @@ input[type=range]{
 <div class="app">
 
 <header>
-  <div class="logo">📻</div>
-  <h1>WEB WALKIE</h1>
-  <div class="subtitle">Live WebRTC voice</div>
+<div class="logo">📻</div>
+<h1>WEB WALKIE</h1>
+<div class="subtitle">Real-time WebRTC radio</div>
 </header>
 
 <main>
 
 <div class="status">
-  <span id="dot" class="dot"></span>
-  <span id="status">Not connected</span>
+<span id="statusDot" class="dot"></span>
+<span id="statusText">Not connected</span>
 </div>
 
 
-<!-- JOIN SCREEN -->
+<!-- JOIN -->
 
 <section id="joinScreen">
 
-  <div class="label">
-    Room Code
-  </div>
+<div class="label">Room Code</div>
 
-  <input
-    id="roomInput"
-    type="text"
-    maxlength="20"
-    autocomplete="off"
-    autocapitalize="characters"
-    placeholder="BRYCE123">
+<input
+id="roomInput"
+type="text"
+maxlength="20"
+autocomplete="off"
+autocapitalize="characters"
+placeholder="BRYCE123">
 
-  <button
-    id="joinButton"
-    class="primary">
-    📻 JOIN ROOM
-  </button>
+<button
+id="joinButton"
+class="joinButton primary">
+📻 JOIN / CREATE ROOM
+</button>
 
-  <button id="randomButton">
-    🎲 RANDOM ROOM
-  </button>
+<button
+id="randomButton"
+class="joinButton secondary">
+🎲 RANDOM ROOM
+</button>
 
-  <div class="help">
-    The first device automatically creates the room.
-    The second device enters the same code and connects.
-  </div>
+<div class="help">
+Use the same room code on multiple devices.
+The first device becomes the room owner.
+</div>
 
 </section>
 
 
-<!-- WALKIE SCREEN -->
+<!-- WALKIE -->
 
-<section
-  id="walkieScreen"
-  class="hidden">
+<section id="walkieScreen" class="hidden">
 
-  <div class="live">
-    🟢 WEBRTC WALKIE
-  </div>
-
-  <div class="roomLabel">
-    ROOM
-  </div>
-
-  <div
-    id="roomDisplay"
-    class="roomCode">
-  </div>
+<div class="live">
+🟢 LIVE WALKIE CHANNEL
+</div>
 
 
-  <div class="radio">
+<div class="roomInfo">
 
-    <button
-      id="talkButton"
-      class="talk"
-      disabled>
+<div class="roomName">
 
-      <span class="talkIcon">
-        🎙️
-      </span>
+<div class="label">
+Channel
+</div>
 
-      <span class="talkText">
-        HOLD TO TALK
-      </span>
+<div
+id="roomDisplay"
+class="roomCode">
+</div>
 
-    </button>
+</div>
 
-  </div>
+<button
+id="copyButton"
+class="copyButton">
+COPY
+</button>
 
-
-  <div
-    id="wave"
-    class="wave">
-    • • •
-  </div>
+</div>
 
 
-  <div
-    id="talkStatus"
-    class="talkStatus">
-    Waiting for connection...
-  </div>
+<div class="radio">
+
+<button
+id="talkButton"
+class="talk"
+disabled>
+
+<span class="talkIcon">
+🎙️
+</span>
+
+<span class="talkText">
+HOLD TO TALK
+</span>
+
+</button>
+
+</div>
 
 
-  <div class="controls">
-
-    <button id="muteButton">
-      🎙️ Mic On
-    </button>
-
-    <button
-      id="leaveButton"
-      class="danger">
-      ❌ Leave
-    </button>
-
-  </div>
+<div
+id="wave"
+class="wave">
+• • •
+</div>
 
 
-  <div class="divider"></div>
-
-  <div class="label">
-    Speaker Volume
-  </div>
-
-  <input
-    id="volume"
-    type="range"
-    min="0"
-    max="1"
-    value="1"
-    step=".01">
+<div
+id="talkStatus"
+class="talkStatus">
+Waiting for connection...
+</div>
 
 
-  <div class="divider"></div>
+<div class="label">
+Microphone Level
+</div>
 
-  <div class="label">
-    Connection Log
-  </div>
+<div class="meter">
 
-  <div
-    id="log"
-    class="log">
-  </div>
+<div
+id="micMeter"
+class="meterFill">
+</div>
+
+</div>
+
+
+<div class="controls">
+
+<button
+id="muteButton"
+class="control">
+🎙️ Mic On
+</button>
+
+<button
+id="lockButton"
+class="control">
+🔓 Room Open
+</button>
+
+</div>
+
+
+<div class="section">
+
+<div class="label">
+Participants
+</div>
+
+<div
+id="members"
+class="members">
+</div>
+
+</div>
+
+
+<div class="section">
+
+<div class="label">
+Speaker Volume
+</div>
+
+<input
+id="volume"
+type="range"
+min="0"
+max="1"
+value="1"
+step=".01">
+
+</div>
+
+
+<div class="section">
+
+<div class="controls">
+
+<button
+id="leaveButton"
+class="control danger">
+❌ Leave Room
+</button>
+
+<button
+id="clearButton"
+class="control">
+🧹 Clear Log
+</button>
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<div class="label">
+Connection Log
+</div>
+
+<div
+id="log"
+class="log">
+</div>
+
+</div>
 
 </section>
 
@@ -452,11 +686,16 @@ input[type=range]{
 
 
 <audio
-  id="remoteAudio"
-  autoplay
-  playsinline
-  webkit-playsinline>
+id="remoteAudio"
+autoplay
+playsinline
+webkit-playsinline>
 </audio>
+
+<div
+id="toast"
+class="toast">
+</div>
 
 
 <!-- FIREBASE -->
@@ -470,1348 +709,1684 @@ input[type=range]{
 
 <script>
 
-/* =========================================================
-   FIREBASE CONFIG
-========================================================= */
+/* =====================================================
+   FIREBASE
+===================================================== */
 
 const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyAwziMLKnyFi8of5AbS3NXOmVQwo1Ngn5M",
+apiKey:
+"AIzaSyAwziMLKnyFi8of5AbS3NXOmVQwo1Ngn5M",
 
-  authDomain:
-    "web-walkie-talkie-eb91f.firebaseapp.com",
+authDomain:
+"web-walkie-talkie-eb91f.firebaseapp.com",
 
-  databaseURL:
-    "https://web-walkie-talkie-eb91f-default-rtdb.europe-west1.firebasedatabase.app",
+databaseURL:
+"https://web-walkie-talkie-eb91f-default-rtdb.europe-west1.firebasedatabase.app",
 
-  projectId:
-    "web-walkie-talkie-eb91f",
+projectId:
+"web-walkie-talkie-eb91f",
 
-  storageBucket:
-    "web-walkie-talkie-eb91f.firebasestorage.app",
+storageBucket:
+"web-walkie-talkie-eb91f.firebasestorage.app",
 
-  messagingSenderId:
-    "174542114980",
+messagingSenderId:
+"174542114980",
 
-  appId:
-    "1:174542114980:web:f4a48ec7fe322030bdd631"
+appId:
+"1:174542114980:web:f4a48ec7fe322030bdd631"
 
 };
-
 
 firebase.initializeApp(firebaseConfig);
 
-const database =
-  firebase.database();
-
 const auth =
-  firebase.auth();
+firebase.auth();
+
+const db =
+firebase.database();
 
 
-/* =========================================================
-   WEBRTC CONFIG
-========================================================= */
+/* =====================================================
+   WEBRTC
+===================================================== */
 
 const rtcConfig = {
 
-  iceServers: [
+iceServers:[
 
-    {
-      urls:
-        "stun:stun.l.google.com:19302"
-    },
+{
+urls:"stun:stun.l.google.com:19302"
+},
 
-    {
-      urls:
-        "stun:stun1.l.google.com:19302"
-    },
+{
+urls:"stun:stun1.l.google.com:19302"
+},
 
-    {
-      urls:
-        "stun:stun2.l.google.com:19302"
-    }
+{
+urls:"stun:stun2.l.google.com:19302"
+}
 
-  ]
+]
 
 };
 
 
-/* =========================================================
+/* =====================================================
    STATE
-========================================================= */
+===================================================== */
 
-let currentUser = null;
+let user=null;
 
-let roomCode = "";
+let roomCode="";
 
-let roomRef = null;
+let roomRef=null;
 
-let peer = null;
+let membersRef=null;
 
-let localStream = null;
+let peerConnections={};
 
-let remoteStream = null;
+let localStream=null;
 
-let isCaller = false;
+let remoteStreams={};
 
-let isTalking = false;
+let isOwner=false;
 
-let isMuted = false;
+let isMuted=false;
+
+let isTalking=false;
+
+let isLocked=false;
+
+let analyser=null;
+
+let audioContext=null;
+
+let meterAnimation=null;
+
+let cleanupDone=false;
 
 
-/* =========================================================
+/* =====================================================
    ELEMENTS
-========================================================= */
+===================================================== */
 
-const joinScreen =
-  document.getElementById(
-    "joinScreen"
-  );
+const joinScreen=
+document.getElementById("joinScreen");
 
-const walkieScreen =
-  document.getElementById(
-    "walkieScreen"
-  );
+const walkieScreen=
+document.getElementById("walkieScreen");
 
-const roomInput =
-  document.getElementById(
-    "roomInput"
-  );
+const roomInput=
+document.getElementById("roomInput");
 
-const joinButton =
-  document.getElementById(
-    "joinButton"
-  );
+const joinButton=
+document.getElementById("joinButton");
 
-const randomButton =
-  document.getElementById(
-    "randomButton"
-  );
+const randomButton=
+document.getElementById("randomButton");
 
-const talkButton =
-  document.getElementById(
-    "talkButton"
-  );
+const roomDisplay=
+document.getElementById("roomDisplay");
 
-const muteButton =
-  document.getElementById(
-    "muteButton"
-  );
+const copyButton=
+document.getElementById("copyButton");
 
-const leaveButton =
-  document.getElementById(
-    "leaveButton"
-  );
+const talkButton=
+document.getElementById("talkButton");
 
-const statusText =
-  document.getElementById(
-    "status"
-  );
+const muteButton=
+document.getElementById("muteButton");
 
-const statusDot =
-  document.getElementById(
-    "dot"
-  );
+const lockButton=
+document.getElementById("lockButton");
 
-const roomDisplay =
-  document.getElementById(
-    "roomDisplay"
-  );
+const leaveButton=
+document.getElementById("leaveButton");
 
-const talkStatus =
-  document.getElementById(
-    "talkStatus"
-  );
+const clearButton=
+document.getElementById("clearButton");
 
-const wave =
-  document.getElementById(
-    "wave"
-  );
+const membersBox=
+document.getElementById("members");
 
-const remoteAudio =
-  document.getElementById(
-    "remoteAudio"
-  );
+const statusText=
+document.getElementById("statusText");
 
-const volume =
-  document.getElementById(
-    "volume"
-  );
+const statusDot=
+document.getElementById("statusDot");
 
-const logBox =
-  document.getElementById(
-    "log"
-  );
+const talkStatus=
+document.getElementById("talkStatus");
+
+const wave=
+document.getElementById("wave");
+
+const remoteAudio=
+document.getElementById("remoteAudio");
+
+const volume=
+document.getElementById("volume");
+
+const logBox=
+document.getElementById("log");
+
+const micMeter=
+document.getElementById("micMeter");
+
+const toast=
+document.getElementById("toast");
 
 
-/* =========================================================
+/* =====================================================
    LOG
-========================================================= */
+===================================================== */
 
-function log(message){
+function log(text){
 
-  const line =
-    document.createElement(
-      "div"
-    );
+const line=
+document.createElement("div");
 
-  line.textContent =
-    new Date().toLocaleTimeString() +
-    " — " +
-    message;
+line.textContent=
+new Date().toLocaleTimeString()+
+" — "+
+text;
 
-  logBox.appendChild(line);
+logBox.appendChild(line);
 
-  logBox.scrollTop =
-    logBox.scrollHeight;
+logBox.scrollTop=
+logBox.scrollHeight;
+
 }
 
 
-/* =========================================================
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer=null;
+
+function showToast(text){
+
+toast.textContent=text;
+
+toast.classList.add("show");
+
+clearTimeout(toastTimer);
+
+toastTimer=
+setTimeout(
+()=>{
+toast.classList.remove("show");
+},
+2200
+);
+
+}
+
+
+/* =====================================================
    STATUS
-========================================================= */
+===================================================== */
 
 function setStatus(text,type){
 
-  statusText.textContent =
-    text;
+statusText.textContent=text;
 
-  statusDot.className =
-    "dot";
+statusDot.className="dot";
 
-  if(type){
+if(type){
+statusDot.classList.add(type);
+}
 
-    statusDot.classList.add(
-      type
-    );
-
-  }
 }
 
 
-/* =========================================================
-   FIREBASE AUTH
-========================================================= */
+/* =====================================================
+   AUTH
+===================================================== */
 
 async function authenticate(){
 
-  if(
-    auth.currentUser
-  ){
+if(auth.currentUser){
 
-    currentUser =
-      auth.currentUser;
+user=auth.currentUser;
 
-    return currentUser;
+return user;
 
-  }
+}
 
+log("🔐 Signing in...");
 
-  log(
-    "🔐 Signing in..."
-  );
+const result=
+await auth.signInAnonymously();
 
+user=result.user;
 
-  const result =
-    await auth.signInAnonymously();
+log("🔐 Signed in.");
 
-
-  currentUser =
-    result.user;
-
-
-  log(
-    "🔐 Signed in."
-  );
-
-
-  return currentUser;
+return user;
 
 }
 
 
-/* =========================================================
+/* =====================================================
    MICROPHONE
-========================================================= */
+===================================================== */
 
 async function getMicrophone(){
 
-  if(localStream){
+if(localStream){
 
-    return localStream;
+return localStream;
 
-  }
+}
 
+if(
+!navigator.mediaDevices ||
+!navigator.mediaDevices.getUserMedia
+){
 
-  if(
-    !navigator.mediaDevices ||
-    !navigator.mediaDevices.getUserMedia
-  ){
+throw new Error(
+"Microphone is unavailable in this browser."
+);
 
-    throw new Error(
-      "Safari microphone API is unavailable."
-    );
+}
 
-  }
+localStream=
+await navigator.mediaDevices.getUserMedia({
 
+audio:{
+echoCancellation:true,
+noiseSuppression:true,
+autoGainControl:true
+},
 
-  log(
-    "🎙️ Requesting microphone..."
-  );
+video:false
 
+});
 
-  localStream =
-    await navigator.mediaDevices
-      .getUserMedia({
+localStream
+.getAudioTracks()
+.forEach(
+track=>{
+track.enabled=false;
+}
+);
 
-        audio:{
-          echoCancellation:true,
-          noiseSuppression:true,
-          autoGainControl:true
-        },
+setupMeter();
 
-        video:false
+log("🎙️ Microphone ready.");
 
-      });
-
-
-  localStream
-    .getAudioTracks()
-    .forEach(
-      track => {
-
-        track.enabled =
-          false;
-
-      }
-    );
-
-
-  log(
-    "🎙️ Microphone ready."
-  );
-
-
-  return localStream;
+return localStream;
 
 }
 
 
-/* =========================================================
+/* =====================================================
+   MIC METER
+===================================================== */
+
+function setupMeter(){
+
+try{
+
+audioContext=
+new (
+window.AudioContext ||
+window.webkitAudioContext
+)();
+
+const source=
+audioContext.createMediaStreamSource(
+localStream
+);
+
+analyser=
+audioContext.createAnalyser();
+
+analyser.fftSize=256;
+
+source.connect(analyser);
+
+const data=
+new Uint8Array(
+analyser.frequencyBinCount
+);
+
+function update(){
+
+if(!analyser){
+return;
+}
+
+analyser.getByteTimeDomainData(data);
+
+let total=0;
+
+for(let i=0;i<data.length;i++){
+
+const v=
+(data[i]-128)/128;
+
+total+=v*v;
+
+}
+
+const rms=
+Math.sqrt(total/data.length);
+
+const level=
+Math.min(
+100,
+Math.round(rms*300)
+);
+
+micMeter.style.width=
+level+"%";
+
+meterAnimation=
+requestAnimationFrame(update);
+
+}
+
+update();
+
+}
+catch(e){
+
+log("Mic meter unavailable.");
+
+}
+
+}
+
+
+/* =====================================================
    CREATE PEER
-========================================================= */
+===================================================== */
 
-async function createPeer(){
+function createPeer(remoteId){
 
-  peer =
-    new RTCPeerConnection(
-      rtcConfig
-    );
+const pc=
+new RTCPeerConnection(
+rtcConfig
+);
 
+peerConnections[remoteId]=pc;
 
-  remoteStream =
-    new MediaStream();
+remoteStreams[remoteId]=
+new MediaStream();
 
 
-  peer.ontrack =
-    event => {
+pc.ontrack=
+event=>{
 
-      event.streams[0]
-        .getTracks()
-        .forEach(
-          track => {
+event.streams[0]
+.getTracks()
+.forEach(
+track=>{
+remoteStreams[remoteId]
+.addTrack(track);
+}
+);
 
-            remoteStream.addTrack(
-              track
-            );
+remoteAudio.srcObject=
+remoteStreams[remoteId];
 
-          }
-        );
+remoteAudio.volume=
+Number(volume.value);
 
+remoteAudio.play()
+.catch(
+()=>{}
+);
 
-      remoteAudio.srcObject =
-        remoteStream;
+};
 
 
-      remoteAudio.volume =
-        Number(
-          volume.value
-        );
+pc.onicecandidate=
+event=>{
 
+if(!event.candidate){
+return;
+}
 
-      remoteAudio.play()
-        .catch(
-          () => {
+roomRef
+.child("signals")
+.child(remoteId)
+.child(user.uid)
+.child("candidates")
+.push(
+event.candidate.toJSON()
+);
 
-            log(
-              "Safari is waiting for audio playback."
-            );
+};
 
-          }
-        );
 
+pc.onconnectionstatechange=
+()=>{
 
-      log(
-        "🔊 Remote audio connected."
-      );
+const state=
+pc.connectionState;
 
-    };
+log(
+"Connection "+
+remoteId.slice(0,5)+
+": "+
+state
+);
 
+};
 
-  peer.onicecandidate =
-    event => {
 
-      if(
-        !event.candidate ||
-        !roomRef
-      ){
+if(localStream){
 
-        return;
+localStream
+.getTracks()
+.forEach(
+track=>{
+pc.addTrack(
+track,
+localStream
+);
+}
+);
 
-      }
+}
 
-
-      const path =
-        isCaller
-          ? "callerCandidates"
-          : "calleeCandidates";
-
-
-      roomRef
-        .child(path)
-        .push(
-          event.candidate.toJSON()
-        );
-
-    };
-
-
-  peer.onconnectionstatechange =
-    () => {
-
-      if(!peer){
-
-        return;
-
-      }
-
-
-      const state =
-        peer.connectionState;
-
-
-      log(
-        "WebRTC: " +
-        state
-      );
-
-
-      if(
-        state === "connected"
-      ){
-
-        setStatus(
-          "Connected",
-          "green"
-        );
-
-
-        talkButton.disabled =
-          false;
-
-
-        talkStatus.textContent =
-          "Ready";
-
-      }
-
-
-      else if(
-        state === "connecting"
-      ){
-
-        setStatus(
-          "Connecting...",
-          "yellow"
-        );
-
-      }
-
-
-      else if(
-        state === "failed"
-      ){
-
-        setStatus(
-          "Connection failed",
-          "red"
-        );
-
-
-        talkButton.disabled =
-          true;
-
-
-        talkStatus.textContent =
-          "Connection failed";
-
-      }
-
-
-      else if(
-        state === "disconnected"
-      ){
-
-        setStatus(
-          "Disconnected",
-          "red"
-        );
-
-      }
-
-    };
-
-
-  localStream
-    .getTracks()
-    .forEach(
-      track => {
-
-        peer.addTrack(
-          track,
-          localStream
-        );
-
-      }
-    );
+return pc;
 
 }
 
 
-/* =========================================================
-   CREATE NEW ROOM
-========================================================= */
+/* =====================================================
+   MEMBER LIST
+===================================================== */
+
+function listenForMembers(){
+
+membersRef=
+roomRef.child("members");
+
+membersRef.on(
+"value",
+snapshot=>{
+
+const members=
+snapshot.val()||{};
+
+membersBox.innerHTML="";
+
+Object.entries(members)
+.forEach(
+([uid,member])=>{
+
+const row=
+document.createElement("div");
+
+row.className="member";
+
+const avatar=
+document.createElement("div");
+
+avatar.className="avatar";
+
+avatar.textContent=
+uid===user.uid
+?"📱"
+:"👤";
+
+const info=
+document.createElement("div");
+
+info.className="memberInfo";
+
+const name=
+document.createElement("div");
+
+name.className="memberName";
+
+name.textContent=
+member.name||
+"Walkie Device";
+
+const state=
+document.createElement("div");
+
+state.className="memberState";
+
+state.textContent=
+uid===user.uid
+?"You"
+:"Online";
+
+info.appendChild(name);
+
+info.appendChild(state);
+
+const owner=
+document.createElement("span");
+
+owner.className="owner";
+
+if(uid===members.owner){
+owner.textContent="OWNER";
+}
+
+if(uid===roomOwnerId()){
+owner.textContent="OWNER";
+}
+
+const avatarWrap=
+avatar;
+
+row.appendChild(
+avatarWrap
+);
+
+row.appendChild(
+info
+);
+
+row.appendChild(
+owner
+);
+
+
+/* KICK */
+
+if(
+isOwner &&
+uid!==user.uid
+){
+
+const kick=
+document.createElement("button");
+
+kick.className="kick";
+
+kick.textContent="KICK";
+
+kick.onclick=
+()=>{
+kickMember(uid);
+};
+
+row.appendChild(kick);
+
+}
+
+membersBox.appendChild(row);
+
+}
+
+);
+
+}
+);
+
+}
+
+
+/* =====================================================
+   OWNER ID
+===================================================== */
+
+function roomOwnerId(){
+
+let owner=null;
+
+return owner;
+
+}
+
+
+/* =====================================================
+   KICK
+===================================================== */
+
+async function kickMember(uid){
+
+if(!isOwner){
+
+return;
+
+}
+
+if(!confirm(
+"Kick this device from the room?"
+)){
+
+return;
+
+}
+
+await roomRef
+.child("kicked")
+.child(uid)
+.set(true);
+
+await roomRef
+.child("members")
+.child(uid)
+.remove();
+
+showToast("Device kicked.");
+
+log(
+"🦶 Device "+
+uid.slice(0,6)+
+" kicked."
+);
+
+}
+
+
+/* =====================================================
+   KICK LISTENER
+===================================================== */
+
+function listenForKick(){
+
+roomRef
+.child("kicked")
+.child(user.uid)
+.on(
+"value",
+snapshot=>{
+
+if(snapshot.val()===true){
+
+alert(
+"You were kicked from this room."
+);
+
+cleanup();
+
+}
+
+}
+);
+
+}
+
+
+/* =====================================================
+   ROOM LOCK
+===================================================== */
+
+function listenForLock(){
+
+roomRef
+.child("locked")
+.on(
+"value",
+snapshot=>{
+
+isLocked=
+snapshot.val()===true;
+
+if(isOwner){
+
+lockButton.textContent=
+isLocked
+?"🔒 Room Locked"
+:"🔓 Room Open";
+
+lockButton.className=
+isLocked
+?"control locked"
+:"control";
+
+}
+
+}
+);
+
+}
+
+
+/* =====================================================
+   CREATE ROOM
+===================================================== */
 
 async function createRoom(){
 
-  isCaller =
-    true;
+isOwner=true;
 
+roomRef=
+db.ref(
+"walkieRooms/"+roomCode
+);
 
-  setStatus(
-    "Creating room...",
-    "yellow"
-  );
+await roomRef.set({
 
+owner:user.uid,
 
-  await createPeer();
+createdAt:
+firebase.database.ServerValue.TIMESTAMP,
 
+locked:false,
 
-  roomRef =
-    database.ref(
-      "walkieRooms/" +
-      roomCode
-    );
+members:{
+[user.uid]:{
+name:"My Device",
+joinedAt:
+firebase.database.ServerValue.TIMESTAMP
+}
+}
 
+});
 
-  await roomRef.set({
+log("👑 You are the room owner.");
 
-    createdAt:
-      firebase.database.ServerValue.TIMESTAMP,
+listenForMembers();
 
-    state:
-      "waiting",
+listenForKick();
 
-    owner:
-      currentUser.uid
+listenForLock();
 
-  });
+setStatus(
+"Waiting for devices...",
+"yellow"
+);
 
-
-  roomRef
-    .child("answer")
-    .on(
-      "value",
-      async snapshot => {
-
-        const answer =
-          snapshot.val();
-
-
-        if(
-          !answer ||
-          peer.currentRemoteDescription
-        ){
-
-          return;
-
-        }
-
-
-        try{
-
-          await peer.setRemoteDescription(
-            new RTCSessionDescription(
-              answer
-            )
-          );
-
-
-          log(
-            "📡 Answer received."
-          );
-
-        }
-        catch(error){
-
-          log(
-            "Answer error."
-          );
-
-        }
-
-      }
-    );
-
-
-  roomRef
-    .child("calleeCandidates")
-    .on(
-      "child_added",
-      async snapshot => {
-
-        try{
-
-          await peer.addIceCandidate(
-            new RTCIceCandidate(
-              snapshot.val()
-            )
-          );
-
-        }
-        catch(error){
-
-          log(
-            "ICE candidate error."
-          );
-
-        }
-
-      }
-    );
-
-
-  const offer =
-    await peer.createOffer();
-
-
-  await peer.setLocalDescription(
-    offer
-  );
-
-
-  await roomRef
-    .child("offer")
-    .set({
-
-      type:
-        offer.type,
-
-      sdp:
-        offer.sdp
-
-    });
-
-
-  setStatus(
-    "Waiting for another device...",
-    "yellow"
-  );
-
-
-  talkStatus.textContent =
-    "Waiting for another device...";
-
-
-  log(
-    "📻 Room created: " +
-    roomCode
-  );
+talkStatus.textContent=
+"Waiting for another device...";
 
 }
 
 
-/* =========================================================
+/* =====================================================
    JOIN EXISTING ROOM
-========================================================= */
+===================================================== */
 
-async function joinExistingRoom(){
+async function joinExisting(){
 
-  isCaller =
-    false;
+isOwner=false;
 
+roomRef=
+db.ref(
+"walkieRooms/"+roomCode
+);
 
-  setStatus(
-    "Joining room...",
-    "yellow"
-  );
+const snap=
+await roomRef.once("value");
 
+const data=
+snap.val();
 
-  await createPeer();
+if(!data){
 
+throw new Error(
+"Room disappeared."
+);
 
-  const offerSnapshot =
-    await roomRef
-      .child("offer")
-      .once("value");
+}
 
+if(
+data.locked
+){
 
-  const offer =
-    offerSnapshot.val();
+throw new Error(
+"This room is locked."
+);
 
+}
 
-  if(!offer){
+await roomRef
+.child("members")
+.child(user.uid)
+.set({
 
-    throw new Error(
-      "Room exists but is not ready."
-    );
+name:"My Device",
 
-  }
+joinedAt:
+firebase.database.ServerValue.TIMESTAMP
 
+});
 
-  await peer.setRemoteDescription(
-    new RTCSessionDescription(
-      offer
-    )
-  );
+listenForMembers();
 
+listenForKick();
 
-  roomRef
-    .child("callerCandidates")
-    .on(
-      "child_added",
-      async snapshot => {
+listenForLock();
 
-        try{
+setStatus(
+"Joining room...",
+"yellow"
+);
 
-          await peer.addIceCandidate(
-            new RTCIceCandidate(
-              snapshot.val()
-            )
-          );
-
-        }
-        catch(error){
-
-          log(
-            "ICE candidate error."
-          );
-
-        }
-
-      }
-    );
-
-
-  const answer =
-    await peer.createAnswer();
-
-
-  await peer.setLocalDescription(
-    answer
-  );
-
-
-  await roomRef
-    .child("answer")
-    .set({
-
-      type:
-        answer.type,
-
-      sdp:
-        answer.sdp
-
-    });
-
-
-  await roomRef
-    .child("state")
-    .set(
-      "connected"
-    );
-
-
-  log(
-    "📡 Connected to room."
-  );
+log(
+"📻 Joined existing room."
+);
 
 }
 
 
-/* =========================================================
-   JOIN BUTTON
-========================================================= */
+/* =====================================================
+   SIMPLE MULTI PEER SIGNALING
+===================================================== */
 
-joinButton.onclick =
-  async function(){
+async function connectToMembers(){
 
-    const code =
-      roomInput.value
-        .trim()
-        .toUpperCase()
-        .replace(
-          /[^A-Z0-9]/g,
-          ""
-        );
+const snap=
+await roomRef
+.child("members")
+.once("value");
 
+const members=
+snap.val()||{};
 
-    if(!code){
+for(
+const uid of Object.keys(members)
+){
 
-      alert(
-        "Enter a room code."
-      );
+if(
+uid===user.uid ||
+peerConnections[uid]
+){
 
-      return;
+continue;
 
-    }
+}
 
+await connectPeer(uid);
 
-    joinButton.disabled =
-      true;
+}
 
-    randomButton.disabled =
-      true;
-
-
-    roomCode =
-      code;
+}
 
 
-    try{
+/* =====================================================
+   CONNECT PEER
+===================================================== */
 
-      /*
-       * Authentication first.
-       */
+async function connectPeer(remoteId){
 
-      await authenticate();
-
-
-      /*
-       * Microphone request occurs
-       * directly from this button action.
-       */
-
-      await getMicrophone();
+const pc=
+createPeer(remoteId);
 
 
-      roomDisplay.textContent =
-        roomCode;
+/*
+ * Determine which device creates
+ * the offer using UID ordering.
+ */
+
+const shouldOffer=
+user.uid < remoteId;
+
+if(shouldOffer){
+
+const offer=
+await pc.createOffer();
+
+await pc.setLocalDescription(
+offer
+);
+
+await roomRef
+.child("signals")
+.child(remoteId)
+.child(user.uid)
+.child("offer")
+.set({
+
+type:offer.type,
+sdp:offer.sdp
+
+});
+
+}
 
 
-      joinScreen.classList.add(
-        "hidden"
-      );
+/*
+ * Listen for offer.
+ */
 
-      walkieScreen.classList.remove(
-        "hidden"
-      );
+roomRef
+.child("signals")
+.child(user.uid)
+.child(remoteId)
+.child("offer")
+.on(
+"value",
+async snapshot=>{
 
+const offer=
+snapshot.val();
 
-      roomRef =
-        database.ref(
-          "walkieRooms/" +
-          roomCode
-        );
+if(
+!offer ||
+pc.currentRemoteDescription
+){
 
+return;
 
-      const snapshot =
-        await roomRef.once(
-          "value"
-        );
+}
 
+await pc.setRemoteDescription(
+new RTCSessionDescription(
+offer
+)
+);
 
-      if(snapshot.exists()){
+const answer=
+await pc.createAnswer();
 
-        /*
-         * Room already exists.
-         */
+await pc.setLocalDescription(
+answer
+);
 
-        await joinExistingRoom();
+await roomRef
+.child("signals")
+.child(remoteId)
+.child(user.uid)
+.child("answer")
+.set({
 
-      }
-      else{
+type:answer.type,
+sdp:answer.sdp
 
-        /*
-         * First device creates it.
-         */
+});
 
-        await createRoom();
-
-      }
-
-    }
-    catch(error){
-
-      console.error(error);
-
-      log(
-        "❌ " +
-        error.message
-      );
-
-
-      alert(
-        "Could not join:\n\n" +
-        error.message
-      );
+}
+);
 
 
-      cleanup();
+/*
+ * Listen for answer.
+ */
+
+roomRef
+.child("signals")
+.child(user.uid)
+.child(remoteId)
+.child("answer")
+.on(
+"value",
+async snapshot=>{
+
+const answer=
+snapshot.val();
+
+if(
+!answer ||
+pc.currentRemoteDescription
+){
+
+return;
+
+}
+
+await pc.setRemoteDescription(
+new RTCSessionDescription(
+answer
+)
+);
+
+}
+);
 
 
-      joinButton.disabled =
-        false;
+/*
+ * Candidate listeners.
+ */
 
-      randomButton.disabled =
-        false;
+roomRef
+.child("signals")
+.child(user.uid)
+.child(remoteId)
+.child("candidates")
+.on(
+"child_added",
+async snapshot=>{
 
-    }
+try{
 
-  };
+await pc.addIceCandidate(
+new RTCIceCandidate(
+snapshot.val()
+)
+);
+
+}
+catch(e){}
+
+}
+);
 
 
-/* =========================================================
+roomRef
+.child("signals")
+.child(remoteId)
+.child(user.uid)
+.child("candidates")
+.on(
+"child_added",
+async snapshot=>{
+
+try{
+
+await pc.addIceCandidate(
+new RTCIceCandidate(
+snapshot.val()
+)
+);
+
+}
+catch(e){}
+
+}
+);
+
+}
+
+
+/* =====================================================
+   WATCH MEMBERS
+===================================================== */
+
+function watchMembers(){
+
+roomRef
+.child("members")
+.on(
+"value",
+async snapshot=>{
+
+const members=
+snapshot.val()||{};
+
+if(!members[user.uid]){
+
+return;
+
+}
+
+await connectToMembers();
+
+const count=
+Object.keys(members).length;
+
+if(count>1){
+
+setStatus(
+"Connected • "+
+count+
+" devices",
+"green"
+);
+
+talkButton.disabled=false;
+
+talkStatus.textContent=
+"Ready";
+
+}
+
+else{
+
+setStatus(
+"Waiting for devices...",
+"yellow"
+);
+
+talkButton.disabled=true;
+
+talkStatus.textContent=
+"Waiting for another device...";
+
+}
+
+}
+);
+
+}
+
+
+/* =====================================================
+   JOIN
+===================================================== */
+
+joinButton.onclick=
+async function(){
+
+const code=
+roomInput.value
+.trim()
+.toUpperCase()
+.replace(
+/[^A-Z0-9]/g,
+""
+);
+
+if(!code){
+
+showToast(
+"Enter a room code."
+);
+
+return;
+
+}
+
+roomCode=code;
+
+joinButton.disabled=true;
+
+randomButton.disabled=true;
+
+setStatus(
+"Starting...",
+"yellow"
+);
+
+try{
+
+await authenticate();
+
+await getMicrophone();
+
+roomDisplay.textContent=
+roomCode;
+
+joinScreen.classList.add(
+"hidden"
+);
+
+walkieScreen.classList.remove(
+"hidden"
+);
+
+roomRef=
+db.ref(
+"walkieRooms/"+roomCode
+);
+
+const snap=
+await roomRef.once("value");
+
+if(
+snap.exists()
+){
+
+await joinExisting();
+
+}
+else{
+
+await createRoom();
+
+}
+
+watchMembers();
+
+}
+catch(error){
+
+console.error(error);
+
+alert(
+"Could not join:\n\n"+
+error.message
+);
+
+cleanup();
+
+joinButton.disabled=false;
+
+randomButton.disabled=false;
+
+}
+
+};
+
+
+/* =====================================================
    RANDOM ROOM
-========================================================= */
+===================================================== */
 
-randomButton.onclick =
-  function(){
+randomButton.onclick=
+()=>{
 
-    const chars =
-      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+const chars=
+"ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-    let code = "";
+let code="";
 
+for(
+let i=0;
+i<6;
+i++
+){
 
-    for(
-      let i=0;
-      i<6;
-      i++
-    ){
+code+=
+chars[
+Math.floor(
+Math.random()*chars.length
+)
+];
 
-      code +=
-        chars[
-          Math.floor(
-            Math.random() *
-            chars.length
-          )
-        ];
+}
 
-    }
+roomInput.value=code;
 
-
-    roomInput.value =
-      code;
-
-  };
+};
 
 
-/* =========================================================
-   START TALKING
-========================================================= */
+/* =====================================================
+   COPY
+===================================================== */
 
-function startTalking(event){
+copyButton.onclick=
+async()=>{
 
-  event.preventDefault();
+try{
 
+await navigator.clipboard.writeText(
+roomCode
+);
 
-  if(
-    !peer ||
-    peer.connectionState !==
-      "connected"
-  ){
+showToast(
+"Room code copied!"
+);
 
-    return;
+}
+catch(e){
 
-  }
+showToast(
+"Room: "+roomCode
+);
 
+}
 
-  if(
-    isMuted ||
-    isTalking
-  ){
-
-    return;
-
-  }
-
-
-  isTalking =
-    true;
+};
 
 
-  talkButton.classList.add(
-    "active"
-  );
+/* =====================================================
+   TALK
+===================================================== */
 
+function startTalking(e){
 
-  wave.classList.add(
-    "active"
-  );
+e.preventDefault();
 
+if(
+!peerConnections ||
+Object.keys(peerConnections).length===0
+){
 
-  talkStatus.textContent =
-    "🔴 TRANSMITTING";
+return;
 
+}
 
-  if(localStream){
+if(
+isMuted ||
+isTalking
+){
 
-    localStream
-      .getAudioTracks()
-      .forEach(
-        track => {
+return;
 
-          track.enabled =
-            true;
+}
 
-        }
-      );
+isTalking=true;
 
-  }
+talkButton.classList.add(
+"active"
+);
+
+wave.classList.add(
+"active"
+);
+
+talkStatus.textContent=
+"🔴 TRANSMITTING";
+
+if(localStream){
+
+localStream
+.getAudioTracks()
+.forEach(
+track=>{
+track.enabled=true;
+}
+);
+
+}
 
 }
 
 
-/* =========================================================
-   STOP TALKING
-========================================================= */
+function stopTalking(e){
 
-function stopTalking(event){
+if(e){
+e.preventDefault();
+}
 
-  if(event){
+if(!isTalking){
+return;
+}
 
-    event.preventDefault();
+isTalking=false;
 
-  }
+talkButton.classList.remove(
+"active"
+);
 
+wave.classList.remove(
+"active"
+);
 
-  if(!isTalking){
+talkStatus.textContent=
+"Ready";
 
-    return;
+if(localStream){
 
-  }
+localStream
+.getAudioTracks()
+.forEach(
+track=>{
+track.enabled=false;
+}
+);
 
-
-  isTalking =
-    false;
-
-
-  talkButton.classList.remove(
-    "active"
-  );
-
-
-  wave.classList.remove(
-    "active"
-  );
-
-
-  talkStatus.textContent =
-    "Ready";
-
-
-  if(localStream){
-
-    localStream
-      .getAudioTracks()
-      .forEach(
-        track => {
-
-          track.enabled =
-            false;
-
-        }
-      );
-
-  }
+}
 
 }
 
 
-/* =========================================================
-   TALK BUTTON
-========================================================= */
+/* =====================================================
+   TOUCH / POINTER
+===================================================== */
 
 talkButton.addEventListener(
-  "pointerdown",
-  startTalking
+"pointerdown",
+startTalking
 );
 
 talkButton.addEventListener(
-  "pointerup",
-  stopTalking
+"pointerup",
+stopTalking
 );
 
 talkButton.addEventListener(
-  "pointercancel",
-  stopTalking
+"pointercancel",
+stopTalking
 );
 
 talkButton.addEventListener(
-  "pointerleave",
-  stopTalking
+"pointerleave",
+stopTalking
 );
-
-
-/* =========================================================
-   MUTE
-========================================================= */
-
-muteButton.onclick =
-  function(){
-
-    isMuted =
-      !isMuted;
-
-
-    if(isMuted){
-
-      muteButton.textContent =
-        "🔇 Mic Muted";
-
-
-      muteButton.classList.add(
-        "danger"
-      );
-
-
-      isTalking =
-        false;
-
-
-      talkButton.classList.remove(
-        "active"
-      );
-
-
-      wave.classList.remove(
-        "active"
-      );
-
-
-      talkStatus.textContent =
-        "Mic muted";
-
-
-      if(localStream){
-
-        localStream
-          .getAudioTracks()
-          .forEach(
-            track => {
-
-              track.enabled =
-                false;
-
-            }
-          );
-
-      }
-
-    }
-    else{
-
-      muteButton.textContent =
-        "🎙️ Mic On";
-
-
-      muteButton.classList.remove(
-        "danger"
-      );
-
-
-      talkStatus.textContent =
-        "Ready";
-
-    }
-
-  };
-
-
-/* =========================================================
-   VOLUME
-========================================================= */
-
-volume.oninput =
-  function(){
-
-    remoteAudio.volume =
-      Number(
-        volume.value
-      );
-
-  };
-
-
-/* =========================================================
-   LEAVE
-========================================================= */
-
-leaveButton.onclick =
-  function(){
-
-    cleanup();
-
-  };
-
-
-/* =========================================================
-   CLEANUP
-========================================================= */
-
-function cleanup(){
-
-  isTalking =
-    false;
-
-
-  if(roomRef){
-
-    roomRef.off();
-
-    /*
-     * Only remove our room when
-     * we are the caller.
-     */
-
-    if(isCaller){
-
-      roomRef.remove()
-        .catch(
-          () => {}
-        );
-
-    }
-
-  }
-
-
-  if(peer){
-
-    peer.close();
-
-  }
-
-
-  if(localStream){
-
-    localStream
-      .getTracks()
-      .forEach(
-        track => {
-
-          track.stop();
-
-        }
-      );
-
-  }
-
-
-  peer =
-    null;
-
-  localStream =
-    null;
-
-  remoteStream =
-    null;
-
-  roomRef =
-    null;
-
-  roomCode =
-    "";
-
-  remoteAudio.srcObject =
-    null;
-
-
-  walkieScreen.classList.add(
-    "hidden"
-  );
-
-  joinScreen.classList.remove(
-    "hidden"
-  );
-
-
-  joinButton.disabled =
-    false;
-
-  randomButton.disabled =
-    false;
-
-  talkButton.disabled =
-    true;
-
-
-  setStatus(
-    "Not connected"
-  );
-
-
-  talkStatus.textContent =
-    "Waiting for connection...";
-
-
-  logBox.innerHTML =
-    "";
-
-}
-
-
-/* =========================================================
-   SAFETY
-========================================================= */
 
 window.addEventListener(
-  "blur",
-  stopTalking
+"blur",
+stopTalking
 );
 
+
+/* =====================================================
+   MUTE
+===================================================== */
+
+muteButton.onclick=
+()=>{
+
+isMuted=
+!isMuted;
+
+if(isMuted){
+
+muteButton.textContent=
+"🔇 Mic Muted";
+
+muteButton.classList.add(
+"danger"
+);
+
+stopTalking();
+
+}
+else{
+
+muteButton.textContent=
+"🎙️ Mic On";
+
+muteButton.classList.remove(
+"danger"
+);
+
+}
+
+};
+
+
+/* =====================================================
+   LOCK
+===================================================== */
+
+lockButton.onclick=
+async()=>{
+
+if(!isOwner){
+
+showToast(
+"Only the owner can lock the room."
+);
+
+return;
+
+}
+
+const newState=
+!isLocked;
+
+await roomRef
+.child("locked")
+.set(newState);
+
+showToast(
+newState
+?"Room locked"
+:"Room unlocked"
+);
+
+};
+
+
+/* =====================================================
+   VOLUME
+===================================================== */
+
+volume.oninput=
+()=>{
+
+remoteAudio.volume=
+Number(volume.value);
+
+};
+
+
+/* =====================================================
+   CLEAR LOG
+===================================================== */
+
+clearButton.onclick=
+()=>{
+
+logBox.innerHTML="";
+
+};
+
+
+/* =====================================================
+   LEAVE
+===================================================== */
+
+leaveButton.onclick=
+()=>{
+
+cleanup();
+
+};
+
+
+/* =====================================================
+   CLEANUP
+===================================================== */
+
+async function cleanup(){
+
+if(cleanupDone){
+return;
+}
+
+cleanupDone=true;
+
+stopTalking();
+
+if(meterAnimation){
+
+cancelAnimationFrame(
+meterAnimation
+);
+
+}
+
+if(membersRef){
+
+membersRef.off();
+
+}
+
+if(roomRef){
+
+roomRef
+.child("kicked")
+.child(user?.uid||"")
+.off();
+
+roomRef
+.child("locked")
+.off();
+
+roomRef
+.child("members")
+.off();
+
+}
+
+for(
+const pc of Object.values(
+peerConnections
+)
+){
+
+try{
+pc.close();
+}
+catch(e){}
+
+}
+
+peerConnections={};
+
+if(localStream){
+
+localStream
+.getTracks()
+.forEach(
+track=>{
+track.stop();
+}
+);
+
+}
+
+if(audioContext){
+
+try{
+await audioContext.close();
+}
+catch(e){}
+
+}
+
+remoteAudio.srcObject=null;
+
+localStream=null;
+
+roomRef=null;
+
+roomCode="";
+
+isOwner=false;
+
+isLocked=false;
+
+joinScreen.classList.remove(
+"hidden"
+);
+
+walkieScreen.classList.add(
+"hidden"
+);
+
+joinButton.disabled=false;
+
+randomButton.disabled=false;
+
+talkButton.disabled=true;
+
+setStatus(
+"Not connected"
+);
+
+talkStatus.textContent=
+"Waiting for connection...";
+
+logBox.innerHTML="";
+
+cleanupDone=false;
+
+}
+
+
+/* =====================================================
+   PAGE SAFETY
+===================================================== */
 
 document.addEventListener(
-  "visibilitychange",
-  function(){
+"visibilitychange",
+()=>{
 
-    if(document.hidden){
+if(document.hidden){
 
-      stopTalking();
+stopTalking();
 
-    }
+}
 
-  }
+}
 );
 
 
-/* =========================================================
-   STARTUP
-========================================================= */
+/* =====================================================
+   START
+===================================================== */
 
 log(
-  "📻 Web Walkie loaded."
+"📻 Web Walkie v2 loaded."
 );
 
 log(
-  "🔒 HTTPS detected: " +
-  (
-    location.protocol === "https:"
-      ? "YES"
-      : "NO"
-  )
+"🔒 HTTPS: "+
+(
+location.protocol==="https:"
+?"YES"
+:"NO"
+)
 );
 
 </script>
