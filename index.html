@@ -1,0 +1,3088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>Web Walkie</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:#06090d;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body{
+  padding:
+    max(10px,env(safe-area-inset-top))
+    max(10px,env(safe-area-inset-right))
+    max(10px,env(safe-area-inset-bottom))
+    max(10px,env(safe-area-inset-left));
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  border:0;
+  color:white;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-user-select:none;
+  user-select:none;
+}
+
+button:active{
+  transform:scale(.97);
+}
+
+button:disabled{
+  opacity:.45;
+}
+
+.app{
+  width:100%;
+  max-width:600px;
+  min-height:calc(100vh - 20px);
+  margin:auto;
+  overflow:hidden;
+  border:1px solid #27313b;
+  border-radius:30px;
+  background:#10161d;
+  box-shadow:0 25px 80px rgba(0,0,0,.6);
+}
+
+header{
+  text-align:center;
+  padding:23px 20px 19px;
+  background:linear-gradient(180deg,#18212b,#121920);
+  border-bottom:1px solid #27313b;
+}
+
+.logo{
+  font-size:46px;
+}
+
+h1{
+  margin:7px 0 0;
+  font-size:28px;
+  font-weight:1000;
+}
+
+.subtitle{
+  margin-top:4px;
+  color:#7f8b99;
+  font-size:13px;
+}
+
+main{
+  padding:18px;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.status{
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  margin-bottom:17px;
+  border:1px solid #29343f;
+  border-radius:15px;
+  background:#080d12;
+  font-size:14px;
+  font-weight:900;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#687481;
+}
+
+.dot.yellow{
+  background:#ffd43b;
+  box-shadow:0 0 14px #ffd43b;
+}
+
+.dot.green{
+  background:#2ee875;
+  box-shadow:0 0 14px #2ee875;
+}
+
+.dot.red{
+  background:#ff4757;
+  box-shadow:0 0 14px #ff4757;
+}
+
+.label{
+  margin-bottom:8px;
+  color:#7d8996;
+  font-size:10px;
+  font-weight:1000;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+
+input[type=text]{
+  width:100%;
+  height:56px;
+  padding:0 16px;
+  outline:none;
+  border:1px solid #34414d;
+  border-radius:15px;
+  background:#080d12;
+  color:white;
+  font-size:18px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.joinButton{
+  width:100%;
+  height:56px;
+  margin-top:10px;
+  border-radius:15px;
+  font-size:15px;
+  font-weight:1000;
+}
+
+.primary{
+  background:#5865f2;
+}
+
+.secondary{
+  background:#293540;
+}
+
+.danger{
+  background:#d9364f;
+}
+
+.live{
+  padding:11px;
+  border:1px solid rgba(46,232,117,.2);
+  border-radius:14px;
+  background:rgba(46,232,117,.07);
+  color:#6ff2a0;
+  text-align:center;
+  font-weight:1000;
+}
+
+.roomInfo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:15px;
+}
+
+.roomName{
+  flex:1;
+}
+
+.roomCode{
+  font-size:26px;
+  font-weight:1000;
+  letter-spacing:4px;
+}
+
+.copyButton{
+  width:85px;
+  height:42px;
+  border-radius:12px;
+  background:#293540;
+  font-size:12px;
+  font-weight:1000;
+}
+
+/* VIDEO */
+
+.videoBox{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/10;
+  margin-top:17px;
+  overflow:hidden;
+  border:1px solid #2b3742;
+  border-radius:20px;
+  background:#05080b;
+  box-shadow:0 12px 35px rgba(0,0,0,.35);
+}
+
+.remoteVideo{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  background:#05080b;
+}
+
+.videoPlaceholder{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:8px;
+  color:#667381;
+  font-weight:900;
+}
+
+.videoPlaceholderIcon{
+  font-size:42px;
+}
+
+.videoBadge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  padding:7px 10px;
+  border-radius:9px;
+  background:rgba(0,0,0,.65);
+  font-size:10px;
+  font-weight:1000;
+}
+
+.localPreview{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  width:110px;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  border:2px solid rgba(255,255,255,.85);
+  border-radius:13px;
+  background:#05080b;
+  box-shadow:0 7px 25px rgba(0,0,0,.5);
+}
+
+.localVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scaleX(-1);
+}
+
+.fullscreenButton{
+  position:absolute;
+  right:10px;
+  top:10px;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  background:rgba(0,0,0,.65);
+  font-size:18px;
+}
+
+/* CAMERA */
+
+.videoControls{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+
+.videoControl{
+  height:48px;
+  border-radius:13px;
+  background:#293540;
+  font-size:12px;
+  font-weight:1000;
+}
+
+/* RADIO */
+
+.radio{
+  width:245px;
+  height:245px;
+  margin:20px auto 14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:10px solid #2d3945;
+  border-radius:50%;
+  background:radial-gradient(circle,#26313c 0%,#19232d 50%,#111820 100%);
+  box-shadow:
+    inset 0 0 40px rgba(0,0,0,.75),
+    0 18px 50px rgba(0,0,0,.4);
+}
+
+.talk{
+  width:150px;
+  height:150px;
+  border:8px solid #3d4856;
+  border-radius:50%;
+  background:#5865f2;
+  box-shadow:0 10px 35px rgba(88,101,242,.4);
+}
+
+.talk.active{
+  background:#e0314f;
+  box-shadow:
+    0 0 20px #e0314f,
+    0 0 55px rgba(224,49,79,.65);
+}
+
+.talkIcon{
+  display:block;
+  font-size:34px;
+}
+
+.talkText{
+  display:block;
+  margin-top:5px;
+  font-size:12px;
+  font-weight:1000;
+}
+
+.wave{
+  height:27px;
+  color:#647180;
+  text-align:center;
+  font-size:23px;
+  letter-spacing:7px;
+}
+
+.wave.active{
+  animation:pulse .45s infinite alternate;
+}
+
+@keyframes pulse{
+  from{
+    opacity:.3;
+    transform:scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:scale(1.04);
+  }
+}
+
+.talkStatus{
+  margin-bottom:14px;
+  text-align:center;
+  font-weight:1000;
+}
+
+.meter{
+  height:8px;
+  margin:8px 0 17px;
+  overflow:hidden;
+  border-radius:10px;
+  background:#070b10;
+}
+
+.meterFill{
+  width:0%;
+  height:100%;
+  background:#5865f2;
+}
+
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.control{
+  height:50px;
+  border-radius:14px;
+  background:#293540;
+  font-size:13px;
+  font-weight:1000;
+}
+
+.section{
+  margin-top:18px;
+  padding-top:18px;
+  border-top:1px solid #27313b;
+}
+
+.members{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.member{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px;
+  border:1px solid #25303a;
+  border-radius:13px;
+  background:#0a0f14;
+}
+
+.avatar{
+  width:37px;
+  height:37px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#293540;
+  font-size:18px;
+}
+
+.memberInfo{
+  flex:1;
+  min-width:0;
+}
+
+.memberName{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:13px;
+  font-weight:900;
+}
+
+.memberState{
+  margin-top:2px;
+  color:#778391;
+  font-size:10px;
+}
+
+.owner{
+  color:#ffd43b;
+  font-size:10px;
+  font-weight:1000;
+}
+
+.kick{
+  width:62px;
+  height:35px;
+  border-radius:10px;
+  background:#45212a;
+  color:#ff7382;
+  font-size:10px;
+  font-weight:1000;
+}
+
+input[type=range]{
+  width:100%;
+  accent-color:#5865f2;
+}
+
+.log{
+  height:110px;
+  overflow:auto;
+  padding:10px;
+  border:1px solid #222c35;
+  border-radius:12px;
+  background:#080c11;
+  color:#778391;
+  font:10px monospace;
+}
+
+.log div{
+  margin-bottom:5px;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  z-index:100;
+  padding:12px 17px;
+  border:1px solid #394652;
+  border-radius:13px;
+  background:#202a34;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  font-size:12px;
+  font-weight:900;
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(-50%);
+  transition:.2s;
+}
+
+.toast.show{
+  opacity:1;
+}
+
+@media(max-width:420px){
+  .radio{
+    width:220px;
+    height:220px;
+  }
+
+  .talk{
+    width:135px;
+    height:135px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div class="logo">📻</div>
+  <h1>WEB WALKIE</h1>
+  <div class="subtitle">Voice + Live Camera</div>
+</header>
+
+<main>
+
+<div class="status">
+  <span id="statusDot" class="dot"></span>
+  <span id="statusText">Not connected</span>
+</div>
+
+<!-- JOIN -->
+
+<section id="joinScreen">
+
+  <div class="label">Room Code</div>
+
+  <input
+    id="roomInput"
+    type="text"
+    maxlength="20"
+    autocomplete="off"
+    autocapitalize="characters"
+    placeholder="BRYCE123"
+  >
+
+  <button id="joinButton" class="joinButton primary">
+    📻 JOIN / CREATE ROOM
+  </button>
+
+  <button id="randomButton" class="joinButton secondary">
+    🎲 RANDOM ROOM
+  </button>
+
+  <div class="help">
+    Enter the same code on both devices.
+  </div>
+
+</section>
+
+
+<!-- WALKIE -->
+
+<section id="walkieScreen" class="hidden">
+
+  <div class="live">
+    🟢 LIVE WEBRTC CHANNEL
+  </div>
+
+  <div class="roomInfo">
+
+    <div class="roomName">
+
+      <div class="label">Channel</div>
+
+      <div id="roomDisplay" class="roomCode"></div>
+
+    </div>
+
+    <button id="copyButton" class="copyButton">
+      COPY
+    </button>
+
+  </div>
+
+
+  <!-- REMOTE VIDEO -->
+
+  <div id="videoBox" class="videoBox">
+
+    <video
+      id="remoteVideo"
+      class="remoteVideo"
+      autoplay
+      playsinline
+      webkit-playsinline>
+    </video>
+
+    <div id="videoPlaceholder" class="videoPlaceholder">
+
+      <div class="videoPlaceholderIcon">📹</div>
+
+      <div id="videoPlaceholderText">
+        Camera is off
+      </div>
+
+    </div>
+
+    <div class="videoBadge">
+      REMOTE CAMERA
+    </div>
+
+    <video
+      id="localVideo"
+      class="localVideo localPreview hidden"
+      autoplay
+      muted
+      playsinline
+      webkit-playsinline>
+    </video>
+
+    <button id="fullscreenButton" class="fullscreenButton">
+      ⛶
+    </button>
+
+  </div>
+
+
+  <!-- CAMERA BUTTONS -->
+
+  <div class="videoControls">
+
+    <button id="cameraButton" class="videoControl">
+      📹 Camera
+    </button>
+
+    <button id="flipButton" class="videoControl" disabled>
+      🔄 Flip
+    </button>
+
+    <button id="hideVideoButton" class="videoControl">
+      👁️ Hide
+    </button>
+
+  </div>
+
+
+  <!-- PUSH TO TALK -->
+
+  <div class="radio">
+
+    <button id="talkButton" class="talk" disabled>
+
+      <span class="talkIcon">🎙️</span>
+
+      <span class="talkText">
+        HOLD TO TALK
+      </span>
+
+    </button>
+
+  </div>
+
+  <div id="wave" class="wave">
+    • • •
+  </div>
+
+  <div id="talkStatus" class="talkStatus">
+    Connecting...
+  </div>
+
+
+  <div class="label">
+    Microphone Level
+  </div>
+
+  <div class="meter">
+    <div id="micMeter" class="meterFill"></div>
+  </div>
+
+
+  <div class="controls">
+
+    <button id="muteButton" class="control">
+      🎙️ Mic On
+    </button>
+
+    <button id="lockButton" class="control">
+      🔓 Room Open
+    </button>
+
+  </div>
+
+
+  <!-- MEMBERS -->
+
+  <div class="section">
+
+    <div class="label">
+      Participants
+    </div>
+
+    <div id="members" class="members"></div>
+
+  </div>
+
+
+  <!-- VOLUME -->
+
+  <div class="section">
+
+    <div class="label">
+      Speaker Volume
+    </div>
+
+    <input
+      id="volume"
+      type="range"
+      min="0"
+      max="1"
+      value="1"
+      step=".01">
+
+  </div>
+
+
+  <!-- LEAVE -->
+
+  <div class="section">
+
+    <div class="controls">
+
+      <button id="leaveButton" class="control danger">
+        ❌ Leave Room
+      </button>
+
+      <button id="clearButton" class="control">
+        🧹 Clear Log
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <div class="label">
+      Connection Log
+    </div>
+
+    <div id="log" class="log"></div>
+
+  </div>
+
+</section>
+
+</main>
+</div>
+
+
+<audio
+  id="remoteAudio"
+  autoplay
+  playsinline
+  webkit-playsinline>
+</audio>
+
+<div id="toast" class="toast"></div>
+
+
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+
+
+<script>
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+const firebaseConfig = {
+
+  apiKey:
+  "AIzaSyAwziMLKnyFi8of5AbS3NXOmVQwo1Ngn5M",
+
+  authDomain:
+  "web-walkie-talkie-eb91f.firebaseapp.com",
+
+  databaseURL:
+  "https://web-walkie-talkie-eb91f-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId:
+  "web-walkie-talkie-eb91f",
+
+  storageBucket:
+  "web-walkie-talkie-eb91f.firebasestorage.app",
+
+  messagingSenderId:
+  "174542114980",
+
+  appId:
+  "1:174542114980:web:f4a48ec7fe322030bdd631"
+
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+
+const db = firebase.database();
+
+
+/* =========================================================
+   WEBRTC
+========================================================= */
+
+const rtcConfig = {
+
+  iceServers: [
+
+    {
+      urls:"stun:stun.l.google.com:19302"
+    },
+
+    {
+      urls:"stun:stun1.l.google.com:19302"
+    },
+
+    {
+      urls:"stun:stun2.l.google.com:19302"
+    }
+
+  ]
+
+};
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let user = null;
+
+let roomCode = "";
+
+let roomRef = null;
+
+let isOwner = false;
+
+let isLocked = false;
+
+let isMuted = false;
+
+let isTalking = false;
+
+let cameraEnabled = false;
+
+let currentFacingMode = "user";
+
+let localStream = null;
+
+let peerConnections = {};
+
+let remoteStreams = {};
+
+let candidateQueues = {};
+
+let audioContext = null;
+
+let analyser = null;
+
+let meterAnimation = null;
+
+let roomOwner = null;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const joinScreen =
+document.getElementById("joinScreen");
+
+const walkieScreen =
+document.getElementById("walkieScreen");
+
+const roomInput =
+document.getElementById("roomInput");
+
+const joinButton =
+document.getElementById("joinButton");
+
+const randomButton =
+document.getElementById("randomButton");
+
+const roomDisplay =
+document.getElementById("roomDisplay");
+
+const copyButton =
+document.getElementById("copyButton");
+
+const talkButton =
+document.getElementById("talkButton");
+
+const muteButton =
+document.getElementById("muteButton");
+
+const lockButton =
+document.getElementById("lockButton");
+
+const leaveButton =
+document.getElementById("leaveButton");
+
+const clearButton =
+document.getElementById("clearButton");
+
+const cameraButton =
+document.getElementById("cameraButton");
+
+const flipButton =
+document.getElementById("flipButton");
+
+const hideVideoButton =
+document.getElementById("hideVideoButton");
+
+const videoBox =
+document.getElementById("videoBox");
+
+const remoteVideo =
+document.getElementById("remoteVideo");
+
+const localVideo =
+document.getElementById("localVideo");
+
+const videoPlaceholder =
+document.getElementById("videoPlaceholder");
+
+const videoPlaceholderText =
+document.getElementById("videoPlaceholderText");
+
+const fullscreenButton =
+document.getElementById("fullscreenButton");
+
+const membersBox =
+document.getElementById("members");
+
+const statusText =
+document.getElementById("statusText");
+
+const statusDot =
+document.getElementById("statusDot");
+
+const talkStatus =
+document.getElementById("talkStatus");
+
+const wave =
+document.getElementById("wave");
+
+const remoteAudio =
+document.getElementById("remoteAudio");
+
+const volume =
+document.getElementById("volume");
+
+const logBox =
+document.getElementById("log");
+
+const micMeter =
+document.getElementById("micMeter");
+
+const toast =
+document.getElementById("toast");
+
+
+/* =========================================================
+   LOG
+========================================================= */
+
+function log(message){
+
+  const line =
+  document.createElement("div");
+
+  line.textContent =
+  new Date().toLocaleTimeString() +
+  " — " +
+  message;
+
+  logBox.appendChild(line);
+
+  logBox.scrollTop =
+  logBox.scrollHeight;
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer = null;
+
+function showToast(message){
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+  setTimeout(
+    ()=>{
+      toast.classList.remove("show");
+    },
+    2200
+  );
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(message,type){
+
+  statusText.textContent =
+  message;
+
+  statusDot.className =
+  "dot";
+
+  if(type){
+
+    statusDot.classList.add(type);
+
+  }
+
+}
+
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+async function authenticate(){
+
+  if(auth.currentUser){
+
+    user =
+    auth.currentUser;
+
+    return;
+
+  }
+
+  const result =
+  await auth.signInAnonymously();
+
+  user =
+  result.user;
+
+  log("🔐 Connected anonymously.");
+
+}
+
+
+/* =========================================================
+   MICROPHONE
+========================================================= */
+
+async function setupMicrophone(){
+
+  if(localStream){
+
+    return localStream;
+
+  }
+
+  localStream =
+  await navigator.mediaDevices.getUserMedia({
+
+    audio:{
+      echoCancellation:true,
+      noiseSuppression:true,
+      autoGainControl:true,
+      channelCount:1
+    },
+
+    video:false
+
+  });
+
+  localStream
+  .getAudioTracks()
+  .forEach(
+    track=>{
+      track.enabled=false;
+    }
+  );
+
+  setupMeter();
+
+  log("🎙️ Microphone ready.");
+
+  return localStream;
+
+}
+
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+async function enableCamera(){
+
+  if(!navigator.mediaDevices){
+
+    throw new Error(
+      "Camera API is unavailable."
+    );
+
+  }
+
+  if(cameraEnabled){
+
+    return;
+
+  }
+
+  const stream =
+  await navigator.mediaDevices.getUserMedia({
+
+    video:{
+      facingMode:{
+        ideal:currentFacingMode
+      },
+
+      width:{
+        ideal:1280
+      },
+
+      height:{
+        ideal:720
+      },
+
+      frameRate:{
+        ideal:30,
+        max:30
+      }
+    },
+
+    audio:false
+
+  });
+
+  const track =
+  stream.getVideoTracks()[0];
+
+  localStream.addTrack(track);
+
+  cameraEnabled=true;
+
+  localVideo.srcObject =
+  new MediaStream([track]);
+
+  localVideo.classList.remove(
+    "hidden"
+  );
+
+  cameraButton.textContent =
+  "📹 Camera On";
+
+  flipButton.disabled=false;
+
+  log("📹 Camera started.");
+
+  /*
+   * IMPORTANT:
+   *
+   * Every peer already has a video
+   * transceiver. We simply attach the
+   * camera track to its existing sender.
+   */
+
+  for(
+    const pc of Object.values(peerConnections)
+  ){
+
+    const videoTransceiver =
+    pc.getTransceivers()
+    .find(
+      transceiver =>
+      transceiver.receiver &&
+      transceiver.receiver.track &&
+      transceiver.receiver.track.kind === "video"
+    );
+
+    if(videoTransceiver){
+
+      await videoTransceiver.sender
+      .replaceTrack(track);
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   CAMERA OFF
+========================================================= */
+
+async function disableCamera(){
+
+  if(!localStream){
+
+    return;
+
+  }
+
+  const tracks =
+  localStream.getVideoTracks();
+
+  for(const track of tracks){
+
+    track.stop();
+
+    localStream.removeTrack(track);
+
+  }
+
+  for(
+    const pc of Object.values(peerConnections)
+  ){
+
+    const videoTransceiver =
+    pc.getTransceivers()
+    .find(
+      transceiver =>
+      transceiver.receiver &&
+      transceiver.receiver.track &&
+      transceiver.receiver.track.kind === "video"
+    );
+
+    if(videoTransceiver){
+
+      await videoTransceiver
+      .sender
+      .replaceTrack(null);
+
+    }
+
+  }
+
+  cameraEnabled=false;
+
+  localVideo.srcObject=null;
+
+  localVideo.classList.add(
+    "hidden"
+  );
+
+  cameraButton.textContent =
+  "📹 Camera";
+
+  flipButton.disabled=true;
+
+  log("📹 Camera stopped.");
+
+}
+
+
+/* =========================================================
+   CAMERA BUTTON
+========================================================= */
+
+cameraButton.onclick =
+async()=>{
+
+  try{
+
+    if(cameraEnabled){
+
+      await disableCamera();
+
+    }
+    else{
+
+      await enableCamera();
+
+    }
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "Could not start the camera:\n\n" +
+      error.message
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   FLIP CAMERA
+========================================================= */
+
+flipButton.onclick =
+async()=>{
+
+  if(!cameraEnabled){
+
+    return;
+
+  }
+
+  currentFacingMode =
+  currentFacingMode === "user"
+  ? "environment"
+  : "user";
+
+  const oldTrack =
+  localStream.getVideoTracks()[0];
+
+  if(oldTrack){
+
+    oldTrack.stop();
+
+    localStream.removeTrack(
+      oldTrack
+    );
+
+  }
+
+  try{
+
+    const stream =
+    await navigator.mediaDevices
+    .getUserMedia({
+
+      video:{
+        facingMode:{
+          exact:currentFacingMode
+        },
+
+        width:{
+          ideal:1280
+        },
+
+        height:{
+          ideal:720
+        }
+      },
+
+      audio:false
+
+    });
+
+    const newTrack =
+    stream.getVideoTracks()[0];
+
+    localStream.addTrack(
+      newTrack
+    );
+
+    localVideo.srcObject =
+    new MediaStream([newTrack]);
+
+    for(
+      const pc of Object.values(peerConnections)
+    ){
+
+      const transceiver =
+      pc.getTransceivers()
+      .find(
+        t =>
+        t.receiver &&
+        t.receiver.track &&
+        t.receiver.track.kind === "video"
+      );
+
+      if(transceiver){
+
+        await transceiver
+        .sender
+        .replaceTrack(newTrack);
+
+      }
+
+    }
+
+    log(
+      "🔄 Switched camera."
+    );
+
+  }
+  catch(error){
+
+    /*
+     * Some iPad Safari versions don't
+     * accept exact facingMode.
+     */
+
+    currentFacingMode =
+    currentFacingMode === "user"
+    ? "environment"
+    : "user";
+
+    showToast(
+      "Camera switch unavailable."
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   VIDEO HIDE
+========================================================= */
+
+hideVideoButton.onclick =
+()=>{
+
+  if(videoBox.classList.contains("hidden")){
+
+    videoBox.classList.remove(
+      "hidden"
+    );
+
+    hideVideoButton.textContent =
+    "👁️ Hide";
+
+  }
+  else{
+
+    videoBox.classList.add(
+      "hidden"
+    );
+
+    hideVideoButton.textContent =
+    "👁️ Show";
+
+  }
+
+};
+
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+fullscreenButton.onclick =
+async()=>{
+
+  try{
+
+    if(videoBox.requestFullscreen){
+
+      await videoBox.requestFullscreen();
+
+    }
+    else if(
+      videoBox.webkitRequestFullscreen
+    ){
+
+      videoBox.webkitRequestFullscreen();
+
+    }
+
+  }
+  catch(error){
+
+    showToast(
+      "Fullscreen unavailable."
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   MICROPHONE METER
+========================================================= */
+
+function setupMeter(){
+
+  try{
+
+    audioContext =
+    new(
+      window.AudioContext ||
+      window.webkitAudioContext
+    )();
+
+    const source =
+    audioContext
+    .createMediaStreamSource(
+      localStream
+    );
+
+    analyser =
+    audioContext
+    .createAnalyser();
+
+    analyser.fftSize=256;
+
+    source.connect(
+      analyser
+    );
+
+    const data =
+    new Uint8Array(
+      analyser.frequencyBinCount
+    );
+
+    function update(){
+
+      if(!analyser){
+
+        return;
+
+      }
+
+      analyser.getByteTimeDomainData(
+        data
+      );
+
+      let total=0;
+
+      for(
+        let i=0;
+        i<data.length;
+        i++
+      ){
+
+        const value =
+        (data[i]-128)/128;
+
+        total +=
+        value*value;
+
+      }
+
+      const rms =
+      Math.sqrt(
+        total/data.length
+      );
+
+      const level =
+      Math.min(
+        100,
+        Math.round(rms*300)
+      );
+
+      micMeter.style.width =
+      level+"%";
+
+      meterAnimation =
+      requestAnimationFrame(
+        update
+      );
+
+    }
+
+    update();
+
+  }
+  catch(error){
+
+    log(
+      "Mic meter unavailable."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   CREATE PEER CONNECTION
+========================================================= */
+
+function createPeer(remoteId){
+
+  if(peerConnections[remoteId]){
+
+    return peerConnections[remoteId];
+
+  }
+
+  const pc =
+  new RTCPeerConnection(
+    rtcConfig
+  );
+
+  peerConnections[remoteId]=pc;
+
+  candidateQueues[remoteId]=[];
+
+
+  /*
+   * AUDIO TRANSCEIVER
+   */
+
+  const audioTransceiver =
+  pc.addTransceiver(
+    "audio",
+    {
+      direction:"sendrecv"
+    }
+  );
+
+
+  /*
+   * VIDEO TRANSCEIVER
+   *
+   * This is the important fix.
+   * Video is negotiated BEFORE the
+   * camera is turned on.
+   */
+
+  const videoTransceiver =
+  pc.addTransceiver(
+    "video",
+    {
+      direction:"sendrecv"
+    }
+  );
+
+
+  /*
+   * Put microphone into the audio sender.
+   */
+
+  if(localStream){
+
+    const audioTrack =
+    localStream
+    .getAudioTracks()[0];
+
+    if(audioTrack){
+
+      audioTransceiver
+      .sender
+      .replaceTrack(
+        audioTrack
+      );
+
+    }
+
+  }
+
+
+  /*
+   * Camera goes into the video sender
+   * later when Camera is pressed.
+   */
+
+
+  /*
+   * REMOTE TRACKS
+   */
+
+  pc.ontrack =
+  event => {
+
+    log(
+      "📡 Remote "+
+      event.track.kind+
+      " received."
+    );
+
+    if(!remoteStreams[remoteId]){
+
+      remoteStreams[remoteId] =
+      new MediaStream();
+
+    }
+
+    const remoteStream =
+    remoteStreams[remoteId];
+
+    if(
+      !remoteStream
+      .getTracks()
+      .some(
+        track =>
+        track.id === event.track.id
+      )
+    ){
+
+      remoteStream.addTrack(
+        event.track
+      );
+
+    }
+
+    if(
+      event.track.kind === "video"
+    ){
+
+      remoteVideo.srcObject =
+      remoteStream;
+
+      videoPlaceholderText.textContent =
+      "Remote camera connected";
+
+      remoteVideo.play()
+      .catch(
+        ()=>{}
+      );
+
+    }
+
+    if(
+      event.track.kind === "audio"
+    ){
+
+      remoteAudio.srcObject =
+      remoteStream;
+
+      remoteAudio.volume =
+      Number(volume.value);
+
+      remoteAudio.play()
+      .catch(
+        ()=>{}
+      );
+
+    }
+
+    event.track.onended =
+    ()=>{
+
+      if(
+        event.track.kind === "video"
+      ){
+
+        videoPlaceholderText.textContent =
+        "Camera is off";
+
+      }
+
+    };
+
+  };
+
+
+  /*
+   * ICE CANDIDATES
+   */
+
+  pc.onicecandidate =
+  event => {
+
+    if(!event.candidate){
+
+      return;
+
+    }
+
+    roomRef
+    .child("signals")
+    .child(remoteId)
+    .child(user.uid)
+    .child("candidates")
+    .push(
+      event.candidate.toJSON()
+    );
+
+  };
+
+
+  /*
+   * CONNECTION STATE
+   */
+
+  pc.onconnectionstatechange =
+  ()=>{
+
+    const state =
+    pc.connectionState;
+
+    log(
+      "📡 "+
+      remoteId.slice(0,6)+
+      ": "+
+      state
+    );
+
+    if(state === "connected"){
+
+      setStatus(
+        "Connected",
+        "green"
+      );
+
+      talkButton.disabled=false;
+
+      talkStatus.textContent =
+      "Ready";
+
+    }
+
+    if(
+      state === "failed" ||
+      state === "disconnected"
+    ){
+
+      log(
+        "⚠️ Connection "+
+        state
+      );
+
+    }
+
+  };
+
+
+  return pc;
+
+}
+
+
+/* =========================================================
+   CONNECT TO PEER
+========================================================= */
+
+async function connectPeer(remoteId){
+
+  if(
+    remoteId === user.uid
+  ){
+
+    return;
+
+  }
+
+  if(peerConnections[remoteId]){
+
+    return;
+
+  }
+
+  const pc =
+  createPeer(remoteId);
+
+
+  /*
+   * BOTH DEVICES LISTEN FOR OFFERS.
+   */
+
+  roomRef
+  .child("signals")
+  .child(user.uid)
+  .child(remoteId)
+  .child("offer")
+  .on(
+    "value",
+    async snapshot => {
+
+      const offer =
+      snapshot.val();
+
+      if(!offer){
+
+        return;
+
+      }
+
+      try{
+
+        if(
+          pc.signalingState !==
+          "stable"
+        ){
+
+          return;
+
+        }
+
+        await pc.setRemoteDescription(
+          new RTCSessionDescription(
+            offer
+          )
+        );
+
+        const queued =
+        candidateQueues[remoteId] || [];
+
+        for(
+          const candidate
+          of queued
+        ){
+
+          try{
+
+            await pc.addIceCandidate(
+              candidate
+            );
+
+          }
+          catch(e){}
+
+        }
+
+        candidateQueues[remoteId]=[];
+
+        const answer =
+        await pc.createAnswer();
+
+        await pc.setLocalDescription(
+          answer
+        );
+
+        await roomRef
+        .child("signals")
+        .child(remoteId)
+        .child(user.uid)
+        .child("answer")
+        .set({
+
+          type:answer.type,
+
+          sdp:answer.sdp
+
+        });
+
+        log(
+          "📡 Sent WebRTC answer."
+        );
+
+      }
+      catch(error){
+
+        console.error(
+          error
+        );
+
+        log(
+          "❌ Offer error."
+        );
+
+      }
+
+    }
+  );
+
+
+  /*
+   * ANSWER LISTENER
+   */
+
+  roomRef
+  .child("signals")
+  .child(user.uid)
+  .child(remoteId)
+  .child("answer")
+  .on(
+    "value",
+    async snapshot => {
+
+      const answer =
+      snapshot.val();
+
+      if(!answer){
+
+        return;
+
+      }
+
+      try{
+
+        if(
+          pc.signalingState !==
+          "have-local-offer"
+        ){
+
+          return;
+
+        }
+
+        await pc.setRemoteDescription(
+          new RTCSessionDescription(
+            answer
+          )
+        );
+
+        const queued =
+        candidateQueues[remoteId] || [];
+
+        for(
+          const candidate
+          of queued
+        ){
+
+          try{
+
+            await pc.addIceCandidate(
+              candidate
+            );
+
+          }
+          catch(e){}
+
+        }
+
+        candidateQueues[remoteId]=[];
+
+        log(
+          "📡 WebRTC connection accepted."
+        );
+
+      }
+      catch(error){
+
+        console.error(
+          error
+        );
+
+        log(
+          "❌ Answer error."
+        );
+
+      }
+
+    }
+  );
+
+
+  /*
+   * REMOTE ICE
+   */
+
+  roomRef
+  .child("signals")
+  .child(user.uid)
+  .child(remoteId)
+  .child("candidates")
+  .on(
+    "child_added",
+    async snapshot => {
+
+      const candidate =
+      new RTCIceCandidate(
+        snapshot.val()
+      );
+
+      if(
+        pc.remoteDescription
+      ){
+
+        try{
+
+          await pc.addIceCandidate(
+            candidate
+          );
+
+        }
+        catch(error){}
+
+      }
+      else{
+
+        candidateQueues[remoteId]
+        .push(
+          candidate
+        );
+
+      }
+
+    }
+  );
+
+
+  /*
+   * ONLY ONE DEVICE CREATES THE
+   * INITIAL OFFER.
+   */
+
+  if(
+    user.uid < remoteId
+  ){
+
+    try{
+
+      const offer =
+      await pc.createOffer();
+
+      await pc.setLocalDescription(
+        offer
+      );
+
+      await roomRef
+      .child("signals")
+      .child(remoteId)
+      .child(user.uid)
+      .child("offer")
+      .set({
+
+        type:offer.type,
+
+        sdp:offer.sdp
+
+      });
+
+      log(
+        "📡 Sent WebRTC offer."
+      );
+
+    }
+    catch(error){
+
+      console.error(
+        error
+      );
+
+      log(
+        "❌ Could not create offer."
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   MEMBERS
+========================================================= */
+
+function listenMembers(){
+
+  roomRef
+  .child("members")
+  .on(
+    "value",
+    async snapshot => {
+
+      const members =
+      snapshot.val() || {};
+
+      membersBox.innerHTML="";
+
+      for(
+        const [uid,member]
+        of Object.entries(members)
+      ){
+
+        const row =
+        document.createElement("div");
+
+        row.className =
+        "member";
+
+        const avatar =
+        document.createElement("div");
+
+        avatar.className =
+        "avatar";
+
+        avatar.textContent =
+        uid === user.uid
+        ? "📱"
+        : "👤";
+
+        const info =
+        document.createElement("div");
+
+        info.className =
+        "memberInfo";
+
+        const name =
+        document.createElement("div");
+
+        name.className =
+        "memberName";
+
+        name.textContent =
+        member.name ||
+        "Walkie Device";
+
+        const state =
+        document.createElement("div");
+
+        state.className =
+        "memberState";
+
+        state.textContent =
+        uid === user.uid
+        ? "You • Online"
+        : "Online";
+
+        info.appendChild(name);
+        info.appendChild(state);
+
+        row.appendChild(avatar);
+        row.appendChild(info);
+
+
+        if(uid === roomOwner){
+
+          const owner =
+          document.createElement("span");
+
+          owner.className =
+          "owner";
+
+          owner.textContent =
+          "OWNER";
+
+          row.appendChild(owner);
+
+        }
+
+
+        if(
+          isOwner &&
+          uid !== user.uid
+        ){
+
+          const kick =
+          document.createElement("button");
+
+          kick.className =
+          "kick";
+
+          kick.textContent =
+          "KICK";
+
+          kick.onclick =
+          ()=>{
+            kickMember(uid);
+          };
+
+          row.appendChild(kick);
+
+        }
+
+        membersBox.appendChild(row);
+
+      }
+
+
+      /*
+       * CONNECT TO EVERY OTHER DEVICE.
+       */
+
+      for(
+        const uid of Object.keys(members)
+      ){
+
+        if(
+          uid !== user.uid &&
+          !peerConnections[uid]
+        ){
+
+          await connectPeer(uid);
+
+        }
+
+      }
+
+
+      const count =
+      Object.keys(members).length;
+
+      if(count > 1){
+
+        setStatus(
+          "Connected • "+
+          count+
+          " devices",
+          "green"
+        );
+
+        talkButton.disabled=false;
+
+        talkStatus.textContent =
+        "Ready";
+
+      }
+      else{
+
+        setStatus(
+          "Waiting for devices...",
+          "yellow"
+        );
+
+        talkButton.disabled=true;
+
+        talkStatus.textContent =
+        "Waiting for another device...";
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   CREATE ROOM
+========================================================= */
+
+async function createRoom(){
+
+  isOwner=true;
+
+  roomOwner =
+  user.uid;
+
+  roomRef =
+  db.ref(
+    "walkieRooms/"+roomCode
+  );
+
+  await roomRef.set({
+
+    owner:user.uid,
+
+    createdAt:
+    firebase.database.ServerValue.TIMESTAMP,
+
+    locked:false,
+
+    members:{
+
+      [user.uid]:{
+
+        name:"My Device",
+
+        joinedAt:
+        firebase.database.ServerValue.TIMESTAMP
+
+      }
+
+    }
+
+  });
+
+  log(
+    "👑 You created the room."
+  );
+
+}
+
+
+/* =========================================================
+   JOIN EXISTING
+========================================================= */
+
+async function joinExisting(){
+
+  const snapshot =
+  await roomRef.once(
+    "value"
+  );
+
+  const data =
+  snapshot.val();
+
+  if(!data){
+
+    throw new Error(
+      "Room does not exist."
+    );
+
+  }
+
+  if(data.locked){
+
+    throw new Error(
+      "This room is locked."
+    );
+
+  }
+
+  roomOwner =
+  data.owner;
+
+  isOwner =
+  data.owner === user.uid;
+
+  await roomRef
+  .child("members")
+  .child(user.uid)
+  .set({
+
+    name:"My Device",
+
+    joinedAt:
+    firebase.database.ServerValue.TIMESTAMP
+
+  });
+
+  log(
+    "📻 Joined existing room."
+  );
+
+}
+
+
+/* =========================================================
+   KICK
+========================================================= */
+
+async function kickMember(uid){
+
+  if(!isOwner){
+
+    return;
+
+  }
+
+  const okay =
+  confirm(
+    "Kick this device?"
+  );
+
+  if(!okay){
+
+    return;
+
+  }
+
+  await roomRef
+  .child("kicked")
+  .child(uid)
+  .set(true);
+
+  await roomRef
+  .child("members")
+  .child(uid)
+  .remove();
+
+  showToast(
+    "Device kicked."
+  );
+
+  log(
+    "🦶 Kicked "+
+    uid.slice(0,6)
+  );
+
+}
+
+
+/* =========================================================
+   KICK LISTENER
+========================================================= */
+
+function listenKick(){
+
+  roomRef
+  .child("kicked")
+  .child(user.uid)
+  .on(
+    "value",
+    snapshot => {
+
+      if(
+        snapshot.val() === true
+      ){
+
+        alert(
+          "You were kicked from this room."
+        );
+
+        cleanup();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LOCK LISTENER
+========================================================= */
+
+function listenLock(){
+
+  roomRef
+  .child("locked")
+  .on(
+    "value",
+    snapshot => {
+
+      isLocked =
+      snapshot.val() === true;
+
+      lockButton.textContent =
+      isLocked
+      ? "🔒 Room Locked"
+      : "🔓 Room Open";
+
+      lockButton.disabled =
+      !isOwner;
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LOCK BUTTON
+========================================================= */
+
+lockButton.onclick =
+async()=>{
+
+  if(!isOwner){
+
+    return;
+
+  }
+
+  isLocked =
+  !isLocked;
+
+  await roomRef
+  .child("locked")
+  .set(isLocked);
+
+};
+
+
+/* =========================================================
+   JOIN
+========================================================= */
+
+joinButton.onclick =
+async()=>{
+
+  const code =
+  roomInput.value
+  .trim()
+  .toUpperCase()
+  .replace(
+    /[^A-Z0-9]/g,
+    ""
+  );
+
+  if(!code){
+
+    showToast(
+      "Enter a room code."
+    );
+
+    return;
+
+  }
+
+  joinButton.disabled=true;
+  randomButton.disabled=true;
+
+  roomCode =
+  code;
+
+  setStatus(
+    "Starting...",
+    "yellow"
+  );
+
+  try{
+
+    await authenticate();
+
+    /*
+     * Get microphone while this is
+     * still a user gesture.
+     *
+     * This is especially important
+     * for Safari/iPadOS.
+     */
+
+    await setupMicrophone();
+
+    roomDisplay.textContent =
+    roomCode;
+
+    joinScreen.classList.add(
+      "hidden"
+    );
+
+    walkieScreen.classList.remove(
+      "hidden"
+    );
+
+    roomRef =
+    db.ref(
+      "walkieRooms/"+roomCode
+    );
+
+    const snapshot =
+    await roomRef.once(
+      "value"
+    );
+
+    if(snapshot.exists()){
+
+      await joinExisting();
+
+    }
+    else{
+
+      await createRoom();
+
+    }
+
+    listenMembers();
+
+    listenKick();
+
+    listenLock();
+
+    /*
+     * Start with video hidden visually,
+     * but the WebRTC video channel is
+     * ready for the camera.
+     */
+
+    videoPlaceholder.classList.remove(
+      "hidden"
+    );
+
+    videoPlaceholderText.textContent =
+    "Camera is off";
+
+  }
+  catch(error){
+
+    console.error(
+      error
+    );
+
+    alert(
+      "Could not join:\n\n"+
+      error.message
+    );
+
+    cleanup();
+
+    joinButton.disabled=false;
+    randomButton.disabled=false;
+
+  }
+
+};
+
+
+/* =========================================================
+   RANDOM ROOM
+========================================================= */
+
+randomButton.onclick =
+()=>{
+
+  const chars =
+  "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let code="";
+
+  for(
+    let i=0;
+    i<6;
+    i++
+  ){
+
+    code +=
+    chars[
+      Math.floor(
+        Math.random()*chars.length
+      )
+    ];
+
+  }
+
+  roomInput.value =
+  code;
+
+};
+
+
+/* =========================================================
+   COPY ROOM
+========================================================= */
+
+copyButton.onclick =
+async()=>{
+
+  try{
+
+    await navigator.clipboard.writeText(
+      roomCode
+    );
+
+    showToast(
+      "Room code copied!"
+    );
+
+  }
+  catch(error){
+
+    showToast(
+      roomCode
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   PUSH TO TALK
+========================================================= */
+
+function startTalking(event){
+
+  event.preventDefault();
+
+  if(
+    talkButton.disabled ||
+    isMuted ||
+    isTalking
+  ){
+
+    return;
+
+  }
+
+  isTalking=true;
+
+  talkButton.classList.add(
+    "active"
+  );
+
+  wave.classList.add(
+    "active"
+  );
+
+  talkStatus.textContent =
+  "🔴 TRANSMITTING";
+
+  if(localStream){
+
+    localStream
+    .getAudioTracks()
+    .forEach(
+      track=>{
+        track.enabled=true;
+      }
+    );
+
+  }
+
+}
+
+
+function stopTalking(event){
+
+  if(event){
+
+    event.preventDefault();
+
+  }
+
+  if(!isTalking){
+
+    return;
+
+  }
+
+  isTalking=false;
+
+  talkButton.classList.remove(
+    "active"
+  );
+
+  wave.classList.remove(
+    "active"
+  );
+
+  talkStatus.textContent =
+  "Ready";
+
+  if(localStream){
+
+    localStream
+    .getAudioTracks()
+    .forEach(
+      track=>{
+        track.enabled=false;
+      }
+    );
+
+  }
+
+}
+
+
+talkButton.addEventListener(
+  "pointerdown",
+  startTalking
+);
+
+talkButton.addEventListener(
+  "pointerup",
+  stopTalking
+);
+
+talkButton.addEventListener(
+  "pointercancel",
+  stopTalking
+);
+
+talkButton.addEventListener(
+  "pointerleave",
+  stopTalking
+);
+
+window.addEventListener(
+  "blur",
+  stopTalking
+);
+
+
+/* =========================================================
+   MUTE
+========================================================= */
+
+muteButton.onclick =
+()=>{
+
+  isMuted =
+  !isMuted;
+
+  if(isMuted){
+
+    stopTalking();
+
+    muteButton.textContent =
+    "🔇 Mic Muted";
+
+  }
+  else{
+
+    muteButton.textContent =
+    "🎙️ Mic On";
+
+  }
+
+};
+
+
+/* =========================================================
+   VOLUME
+========================================================= */
+
+volume.oninput =
+()=>{
+
+  remoteAudio.volume =
+  Number(
+    volume.value
+  );
+
+};
+
+
+/* =========================================================
+   CLEAR LOG
+========================================================= */
+
+clearButton.onclick =
+()=>{
+
+  logBox.innerHTML="";
+
+};
+
+
+/* =========================================================
+   CLEANUP
+========================================================= */
+
+async function cleanup(){
+
+  stopTalking();
+
+  if(meterAnimation){
+
+    cancelAnimationFrame(
+      meterAnimation
+    );
+
+  }
+
+  if(roomRef && user){
+
+    try{
+
+      await roomRef
+      .child("members")
+      .child(user.uid)
+      .remove();
+
+    }
+    catch(error){}
+
+  }
+
+  for(
+    const pc
+    of Object.values(
+      peerConnections
+    )
+  ){
+
+    try{
+
+      pc.close();
+
+    }
+    catch(error){}
+
+  }
+
+  peerConnections={};
+
+  remoteStreams={};
+
+  candidateQueues={};
+
+
+  if(localStream){
+
+    localStream
+    .getTracks()
+    .forEach(
+      track=>{
+        track.stop();
+      }
+    );
+
+  }
+
+  localStream=null;
+
+  if(audioContext){
+
+    try{
+
+      await audioContext.close();
+
+    }
+    catch(error){}
+
+  }
+
+  audioContext=null;
+
+  remoteVideo.srcObject=null;
+
+  remoteAudio.srcObject=null;
+
+  localVideo.srcObject=null;
+
+  roomRef=null;
+
+  roomCode="";
+
+  isOwner=false;
+
+  roomOwner=null;
+
+  isLocked=false;
+
+  cameraEnabled=false;
+
+  joinScreen.classList.remove(
+    "hidden"
+  );
+
+  walkieScreen.classList.add(
+    "hidden"
+  );
+
+  joinButton.disabled=false;
+
+  randomButton.disabled=false;
+
+  talkButton.disabled=true;
+
+  flipButton.disabled=true;
+
+  setStatus(
+    "Not connected"
+  );
+
+  talkStatus.textContent =
+  "Connecting...";
+
+}
+
+
+/* =========================================================
+   SAFARI VISIBILITY
+========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  ()=>{
+
+    if(document.hidden){
+
+      stopTalking();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+log(
+  "📻 Web Walkie Camera Edition loaded."
+);
+
+log(
+  "🔒 HTTPS: "+
+  (
+    location.protocol === "https:"
+    ? "YES"
+    : "NO"
+  )
+);
+
+</script>
+
+</body>
+</html>
