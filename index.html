@@ -9,7 +9,6 @@ content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,vie
 <title>Web Walkie</title>
 
 <style>
-
 *{
 box-sizing:border-box;
 -webkit-tap-highlight-color:transparent;
@@ -20,7 +19,7 @@ margin:0;
 padding:0;
 min-height:100%;
 background:#06090d;
-color:white;
+color:#fff;
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
@@ -32,14 +31,13 @@ max(10px,env(safe-area-inset-bottom))
 max(10px,env(safe-area-inset-left));
 }
 
-button,
-input{
+button,input{
 font-family:inherit;
 }
 
 button{
 border:0;
-color:white;
+color:#fff;
 touch-action:manipulation;
 -webkit-user-select:none;
 user-select:none;
@@ -52,12 +50,11 @@ transform:scale(.97);
 
 button:disabled{
 opacity:.45;
-cursor:not-allowed;
 }
 
 .app{
 width:100%;
-max-width:560px;
+max-width:580px;
 min-height:calc(100vh - 20px);
 margin:auto;
 background:#10161d;
@@ -68,19 +65,14 @@ box-shadow:0 25px 80px rgba(0,0,0,.6);
 }
 
 header{
-padding:24px 20px 20px;
+padding:23px 20px 19px;
 text-align:center;
-background:
-linear-gradient(
-180deg,
-#18212b,
-#121920
-);
+background:linear-gradient(180deg,#18212b,#121920);
 border-bottom:1px solid #27313b;
 }
 
 .logo{
-font-size:48px;
+font-size:47px;
 line-height:1;
 }
 
@@ -88,7 +80,6 @@ h1{
 margin:7px 0 0;
 font-size:28px;
 font-weight:1000;
-letter-spacing:-.5px;
 }
 
 .subtitle{
@@ -99,6 +90,10 @@ font-size:13px;
 
 main{
 padding:18px;
+}
+
+.hidden{
+display:none!important;
 }
 
 .status{
@@ -154,14 +149,19 @@ background:#080d12;
 border:1px solid #34414d;
 border-radius:15px;
 outline:none;
-color:white;
+color:#fff;
 font-size:18px;
 font-weight:900;
 text-transform:uppercase;
 }
 
-input[type=text]:focus{
-border-color:#6572ff;
+.joinButton{
+width:100%;
+height:56px;
+margin-top:10px;
+border-radius:15px;
+font-size:15px;
+font-weight:1000;
 }
 
 .primary{
@@ -180,25 +180,12 @@ background:#d9364f;
 background:#199d57;
 }
 
-.joinButton{
-width:100%;
-height:56px;
-margin-top:10px;
-border-radius:15px;
-font-size:15px;
-font-weight:1000;
-}
-
 .help{
 margin-top:11px;
 font-size:12px;
 line-height:1.5;
 color:#778391;
 text-align:center;
-}
-
-.hidden{
-display:none!important;
 }
 
 .live{
@@ -238,30 +225,101 @@ font-size:12px;
 font-weight:1000;
 }
 
+.videoBox{
+position:relative;
+width:100%;
+aspect-ratio:16/10;
+margin-top:17px;
+border-radius:20px;
+overflow:hidden;
+background:#05080b;
+border:1px solid #2b3742;
+box-shadow:0 12px 35px rgba(0,0,0,.35);
+}
+
+.remoteVideo{
+width:100%;
+height:100%;
+display:block;
+object-fit:cover;
+background:#05080b;
+}
+
+.videoPlaceholder{
+position:absolute;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+gap:8px;
+color:#667381;
+font-weight:900;
+}
+
+.videoPlaceholderIcon{
+font-size:42px;
+}
+
+.localPreview{
+position:absolute;
+right:10px;
+bottom:10px;
+width:105px;
+aspect-ratio:4/3;
+border-radius:13px;
+overflow:hidden;
+border:2px solid rgba(255,255,255,.8);
+background:#05080b;
+box-shadow:0 7px 25px rgba(0,0,0,.5);
+}
+
+.localVideo{
+width:100%;
+height:100%;
+object-fit:cover;
+transform:scaleX(-1);
+}
+
+.videoBadge{
+position:absolute;
+top:10px;
+left:10px;
+padding:7px 10px;
+border-radius:9px;
+background:rgba(0,0,0,.6);
+font-size:10px;
+font-weight:1000;
+}
+
+.fullscreenButton{
+position:absolute;
+right:10px;
+top:10px;
+width:40px;
+height:40px;
+margin:0;
+border-radius:10px;
+background:rgba(0,0,0,.6);
+font-size:17px;
+}
+
 .radio{
-width:255px;
-height:255px;
-margin:20px auto 16px;
+width:245px;
+height:245px;
+margin:20px auto 14px;
 display:flex;
 align-items:center;
 justify-content:center;
 border-radius:50%;
 border:10px solid #2d3945;
-background:
-radial-gradient(
-circle,
-#26313c 0%,
-#19232d 50%,
-#111820 100%
-);
-box-shadow:
-inset 0 0 40px rgba(0,0,0,.75),
-0 18px 50px rgba(0,0,0,.4);
+background:radial-gradient(circle,#26313c 0%,#19232d 50%,#111820 100%);
+box-shadow:inset 0 0 40px rgba(0,0,0,.75),0 18px 50px rgba(0,0,0,.4);
 }
 
 .talk{
-width:158px;
-height:158px;
+width:150px;
+height:150px;
 border-radius:50%;
 border:8px solid #3d4856;
 background:#5865f2;
@@ -270,14 +328,12 @@ box-shadow:0 10px 35px rgba(88,101,242,.4);
 
 .talk.active{
 background:#e0314f;
-box-shadow:
-0 0 20px #e0314f,
-0 0 55px rgba(224,49,79,.65);
+box-shadow:0 0 20px #e0314f,0 0 55px rgba(224,49,79,.65);
 }
 
 .talkIcon{
 display:block;
-font-size:35px;
+font-size:34px;
 }
 
 .talkText{
@@ -285,12 +341,6 @@ display:block;
 font-size:12px;
 font-weight:1000;
 margin-top:5px;
-}
-
-.talkStatus{
-text-align:center;
-font-weight:1000;
-margin-bottom:14px;
 }
 
 .wave{
@@ -316,6 +366,12 @@ transform:scale(1.04);
 }
 }
 
+.talkStatus{
+text-align:center;
+font-weight:1000;
+margin-bottom:14px;
+}
+
 .meter{
 height:8px;
 margin:8px 0 17px;
@@ -329,6 +385,35 @@ width:0%;
 height:100%;
 background:#5865f2;
 transition:width .05s linear;
+}
+
+.controls{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
+}
+
+.control{
+height:50px;
+border-radius:14px;
+background:#293540;
+font-weight:1000;
+font-size:13px;
+}
+
+.videoControls{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:8px;
+margin-top:10px;
+}
+
+.videoControl{
+height:48px;
+border-radius:13px;
+background:#293540;
+font-size:12px;
+font-weight:1000;
 }
 
 .section{
@@ -400,25 +485,6 @@ font-size:10px;
 font-weight:1000;
 }
 
-.controls{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:9px;
-}
-
-.control{
-height:50px;
-border-radius:14px;
-background:#293540;
-font-weight:1000;
-font-size:13px;
-}
-
-.locked{
-background:#372e13;
-color:#ffd43b;
-}
-
 input[type=range]{
 width:100%;
 accent-color:#5865f2;
@@ -471,7 +537,7 @@ opacity:1;
 <header>
 <div class="logo">📻</div>
 <h1>WEB WALKIE</h1>
-<div class="subtitle">Real-time WebRTC radio</div>
+<div class="subtitle">Voice + Live Camera</div>
 </header>
 
 <main>
@@ -482,11 +548,13 @@ opacity:1;
 </div>
 
 
-<!-- JOIN -->
+<!-- JOIN SCREEN -->
 
 <section id="joinScreen">
 
-<div class="label">Room Code</div>
+<div class="label">
+Room Code
+</div>
 
 <input
 id="roomInput"
@@ -509,19 +577,21 @@ class="joinButton secondary">
 </button>
 
 <div class="help">
-Use the same room code on multiple devices.
 The first device becomes the room owner.
+Use the same code on another device to connect.
 </div>
 
 </section>
 
 
-<!-- WALKIE -->
+<!-- WALKIE SCREEN -->
 
-<section id="walkieScreen" class="hidden">
+<section
+id="walkieScreen"
+class="hidden">
 
 <div class="live">
-🟢 LIVE WALKIE CHANNEL
+🟢 LIVE WEBRTC CHANNEL
 </div>
 
 
@@ -549,6 +619,86 @@ COPY
 </div>
 
 
+<!-- VIDEO -->
+
+<div
+id="videoBox"
+class="videoBox hidden">
+
+<video
+id="remoteVideo"
+class="remoteVideo"
+autoplay
+playsinline
+webkit-playsinline>
+</video>
+
+<div
+id="videoPlaceholder"
+class="videoPlaceholder">
+
+<div class="videoPlaceholderIcon">
+📹
+</div>
+
+<div>
+Waiting for camera...
+</div>
+
+</div>
+
+<div
+id="videoBadge"
+class="videoBadge">
+REMOTE CAMERA
+</div>
+
+<video
+id="localVideo"
+class="localVideo localPreview hidden"
+autoplay
+muted
+playsinline
+webkit-playsinline>
+</video>
+
+<button
+id="fullscreenButton"
+class="fullscreenButton">
+⛶
+</button>
+
+</div>
+
+
+<!-- CAMERA CONTROLS -->
+
+<div class="videoControls">
+
+<button
+id="cameraButton"
+class="videoControl">
+📹 Camera
+</button>
+
+<button
+id="flipButton"
+class="videoControl"
+disabled>
+🔄 Flip
+</button>
+
+<button
+id="hideVideoButton"
+class="videoControl">
+👁️ Hide
+</button>
+
+</div>
+
+
+<!-- PUSH TO TALK -->
+
 <div class="radio">
 
 <button
@@ -568,13 +718,11 @@ HOLD TO TALK
 
 </div>
 
-
 <div
 id="wave"
 class="wave">
 • • •
 </div>
-
 
 <div
 id="talkStatus"
@@ -614,6 +762,8 @@ class="control">
 </div>
 
 
+<!-- PARTICIPANTS -->
+
 <div class="section">
 
 <div class="label">
@@ -627,6 +777,8 @@ class="members">
 
 </div>
 
+
+<!-- AUDIO -->
 
 <div class="section">
 
@@ -644,6 +796,8 @@ step=".01">
 
 </div>
 
+
+<!-- LEAVE -->
 
 <div class="section">
 
@@ -682,6 +836,7 @@ class="log">
 </section>
 
 </main>
+
 </div>
 
 
@@ -691,6 +846,7 @@ autoplay
 playsinline
 webkit-playsinline>
 </audio>
+
 
 <div
 id="toast"
@@ -713,7 +869,7 @@ class="toast">
    FIREBASE
 ===================================================== */
 
-const firebaseConfig = {
+const firebaseConfig={
 
 apiKey:
 "AIzaSyAwziMLKnyFi8of5AbS3NXOmVQwo1Ngn5M",
@@ -740,10 +896,10 @@ appId:
 
 firebase.initializeApp(firebaseConfig);
 
-const auth =
+const auth=
 firebase.auth();
 
-const db =
+const db=
 firebase.database();
 
 
@@ -751,7 +907,7 @@ firebase.database();
    WEBRTC
 ===================================================== */
 
-const rtcConfig = {
+const rtcConfig={
 
 iceServers:[
 
@@ -782,13 +938,9 @@ let roomCode="";
 
 let roomRef=null;
 
-let membersRef=null;
-
 let peerConnections={};
 
 let localStream=null;
-
-let remoteStreams={};
 
 let isOwner=false;
 
@@ -798,9 +950,13 @@ let isTalking=false;
 
 let isLocked=false;
 
-let analyser=null;
+let cameraEnabled=false;
+
+let currentFacingMode="user";
 
 let audioContext=null;
+
+let analyser=null;
 
 let meterAnimation=null;
 
@@ -846,6 +1002,30 @@ document.getElementById("leaveButton");
 
 const clearButton=
 document.getElementById("clearButton");
+
+const cameraButton=
+document.getElementById("cameraButton");
+
+const flipButton=
+document.getElementById("flipButton");
+
+const hideVideoButton=
+document.getElementById("hideVideoButton");
+
+const videoBox=
+document.getElementById("videoBox");
+
+const localVideo=
+document.getElementById("localVideo");
+
+const remoteVideo=
+document.getElementById("remoteVideo");
+
+const videoPlaceholder=
+document.getElementById("videoPlaceholder");
+
+const fullscreenButton=
+document.getElementById("fullscreenButton");
 
 const membersBox=
 document.getElementById("members");
@@ -904,7 +1084,7 @@ logBox.scrollHeight;
    TOAST
 ===================================================== */
 
-let toastTimer=null;
+let toastTimer;
 
 function showToast(text){
 
@@ -936,7 +1116,9 @@ statusText.textContent=text;
 statusDot.className="dot";
 
 if(type){
+
 statusDot.classList.add(type);
+
 }
 
 }
@@ -952,44 +1134,29 @@ if(auth.currentUser){
 
 user=auth.currentUser;
 
-return user;
+return;
 
 }
-
-log("🔐 Signing in...");
 
 const result=
 await auth.signInAnonymously();
 
 user=result.user;
 
-log("🔐 Signed in.");
-
-return user;
+log("🔐 Anonymous sign-in complete.");
 
 }
 
 
 /* =====================================================
-   MICROPHONE
+   AUDIO
 ===================================================== */
 
-async function getMicrophone(){
+async function getAudio(){
 
 if(localStream){
 
 return localStream;
-
-}
-
-if(
-!navigator.mediaDevices ||
-!navigator.mediaDevices.getUserMedia
-){
-
-throw new Error(
-"Microphone is unavailable in this browser."
-);
 
 }
 
@@ -1021,6 +1188,392 @@ log("🎙️ Microphone ready.");
 return localStream;
 
 }
+
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+async function enableCamera(){
+
+if(
+!navigator.mediaDevices ||
+!navigator.mediaDevices.getUserMedia
+){
+
+throw new Error(
+"Camera API unavailable."
+);
+
+}
+
+const cameraStream=
+await navigator.mediaDevices.getUserMedia({
+
+audio:false,
+
+video:{
+facingMode:{
+ideal:currentFacingMode
+},
+
+width:{
+ideal:1280
+},
+
+height:{
+ideal:720
+},
+
+frameRate:{
+ideal:30,
+max:30
+}
+
+}
+
+});
+
+
+const cameraTrack=
+cameraStream.getVideoTracks()[0];
+
+
+/*
+ * Add camera to our existing stream.
+ */
+
+if(!localStream){
+
+await getAudio();
+
+}
+
+localStream.addTrack(
+cameraTrack
+);
+
+
+cameraEnabled=true;
+
+localVideo.srcObject=
+new MediaStream([
+cameraTrack
+]);
+
+localVideo.classList.remove(
+"hidden"
+);
+
+videoBox.classList.remove(
+"hidden"
+);
+
+cameraButton.textContent=
+"📹 Camera On";
+
+flipButton.disabled=false;
+
+hideVideoButton.textContent=
+"👁️ Hide";
+
+
+/*
+ * Add/replace video track on every peer.
+ */
+
+for(
+const pc of Object.values(
+peerConnections
+)){
+
+const sender=
+pc.getSenders()
+.find(
+s=>
+s.track &&
+s.track.kind==="video"
+);
+
+if(sender){
+
+await sender.replaceTrack(
+cameraTrack
+);
+
+}
+else{
+
+pc.addTrack(
+cameraTrack,
+localStream
+);
+
+}
+
+}
+
+log("📹 Camera enabled.");
+
+}
+
+
+/* =====================================================
+   DISABLE CAMERA
+===================================================== */
+
+async function disableCamera(){
+
+if(!localStream){
+
+return;
+
+}
+
+const tracks=
+localStream
+.getVideoTracks();
+
+tracks.forEach(
+track=>{
+track.stop();
+localStream.removeTrack(track);
+}
+);
+
+cameraEnabled=false;
+
+localVideo.srcObject=null;
+
+localVideo.classList.add(
+"hidden"
+);
+
+cameraButton.textContent=
+"📹 Camera";
+
+flipButton.disabled=true;
+
+log("📹 Camera disabled.");
+
+}
+
+
+/* =====================================================
+   CAMERA BUTTON
+===================================================== */
+
+cameraButton.onclick=
+async()=>{
+
+try{
+
+if(cameraEnabled){
+
+await disableCamera();
+
+}
+else{
+
+await enableCamera();
+
+}
+
+}
+catch(error){
+
+console.error(error);
+
+alert(
+"Could not start camera:\n\n"+
+error.message
+);
+
+}
+
+};
+
+
+/* =====================================================
+   FLIP CAMERA
+===================================================== */
+
+flipButton.onclick=
+async()=>{
+
+if(!cameraEnabled){
+
+return;
+
+}
+
+currentFacingMode=
+currentFacingMode==="user"
+?"environment"
+:"user";
+
+const oldTrack=
+localStream
+.getVideoTracks()[0];
+
+const oldSettings=
+oldTrack?.getSettings();
+
+if(oldTrack){
+
+oldTrack.stop();
+
+localStream.removeTrack(
+oldTrack
+);
+
+}
+
+try{
+
+const cameraStream=
+await navigator.mediaDevices.getUserMedia({
+
+video:{
+facingMode:{
+exact:currentFacingMode
+},
+
+width:{
+ideal:1280
+},
+
+height:{
+ideal:720
+}
+
+},
+
+audio:false
+
+});
+
+const newTrack=
+cameraStream.getVideoTracks()[0];
+
+localStream.addTrack(
+newTrack
+);
+
+localVideo.srcObject=
+new MediaStream([
+newTrack
+]);
+
+
+for(
+const pc of Object.values(
+peerConnections
+)){
+
+const sender=
+pc.getSenders()
+.find(
+s=>
+s.track &&
+s.track.kind==="video"
+);
+
+if(sender){
+
+await sender.replaceTrack(
+newTrack
+);
+
+}
+
+}
+
+log(
+"🔄 Switched to "+
+currentFacingMode+
+" camera."
+);
+
+}
+catch(error){
+
+log(
+"Camera flip failed."
+);
+
+showToast(
+"Camera cannot be flipped here."
+);
+
+}
+
+};
+
+
+/* =====================================================
+   HIDE VIDEO
+===================================================== */
+
+hideVideoButton.onclick=
+()=>{
+
+if(videoBox.classList.contains("hidden")){
+
+videoBox.classList.remove(
+"hidden"
+);
+
+hideVideoButton.textContent=
+"👁️ Hide";
+
+}
+else{
+
+videoBox.classList.add(
+"hidden"
+);
+
+hideVideoButton.textContent=
+"👁️ Show";
+
+}
+
+};
+
+
+/* =====================================================
+   FULLSCREEN
+===================================================== */
+
+fullscreenButton.onclick=
+async()=>{
+
+try{
+
+if(videoBox.requestFullscreen){
+
+await videoBox.requestFullscreen();
+
+}
+else if(
+videoBox.webkitRequestFullscreen
+){
+
+videoBox.webkitRequestFullscreen();
+
+}
+
+}
+catch(e){
+
+showToast(
+"Fullscreen unavailable."
+);
+
+}
+
+};
 
 
 /* =====================================================
@@ -1060,11 +1613,17 @@ if(!analyser){
 return;
 }
 
-analyser.getByteTimeDomainData(data);
+analyser.getByteTimeDomainData(
+data
+);
 
 let total=0;
 
-for(let i=0;i<data.length;i++){
+for(
+let i=0;
+i<data.length;
+i++
+){
 
 const v=
 (data[i]-128)/128;
@@ -1074,7 +1633,9 @@ total+=v*v;
 }
 
 const rms=
-Math.sqrt(total/data.length);
+Math.sqrt(
+total/data.length
+);
 
 const level=
 Math.min(
@@ -1086,7 +1647,9 @@ micMeter.style.width=
 level+"%";
 
 meterAnimation=
-requestAnimationFrame(update);
+requestAnimationFrame(
+update
+);
 
 }
 
@@ -1095,7 +1658,9 @@ update();
 }
 catch(e){
 
-log("Mic meter unavailable.");
+log(
+"Mic meter unavailable."
+);
 
 }
 
@@ -1115,24 +1680,54 @@ rtcConfig
 
 peerConnections[remoteId]=pc;
 
-remoteStreams[remoteId]=
-new MediaStream();
+
+if(localStream){
+
+localStream
+.getTracks()
+.forEach(
+track=>{
+pc.addTrack(
+track,
+localStream
+);
+}
+);
+
+}
 
 
 pc.ontrack=
 event=>{
 
-event.streams[0]
-.getTracks()
-.forEach(
-track=>{
-remoteStreams[remoteId]
-.addTrack(track);
-}
+if(event.track.kind==="video"){
+
+remoteVideo.srcObject=
+event.streams[0];
+
+videoBox.classList.remove(
+"hidden"
 );
 
+videoPlaceholder.classList.add(
+"hidden"
+);
+
+remoteVideo.play()
+.catch(
+()=>{}
+);
+
+log(
+"📹 Remote camera connected."
+);
+
+}
+
+if(event.track.kind==="audio"){
+
 remoteAudio.srcObject=
-remoteStreams[remoteId];
+event.streams[0];
 
 remoteAudio.volume=
 Number(volume.value);
@@ -1142,6 +1737,8 @@ remoteAudio.play()
 ()=>{}
 );
 
+}
+
 };
 
 
@@ -1149,7 +1746,9 @@ pc.onicecandidate=
 event=>{
 
 if(!event.candidate){
+
 return;
+
 }
 
 roomRef
@@ -1171,29 +1770,30 @@ const state=
 pc.connectionState;
 
 log(
-"Connection "+
-remoteId.slice(0,5)+
+"📡 "+
+remoteId.slice(0,6)+
 ": "+
 state
 );
 
+if(
+state==="connected"
+){
+
+setStatus(
+"Connected",
+"green"
+);
+
+talkButton.disabled=false;
+
+talkStatus.textContent=
+"Ready";
+
+}
+
 };
 
-
-if(localStream){
-
-localStream
-.getTracks()
-.forEach(
-track=>{
-pc.addTrack(
-track,
-localStream
-);
-}
-);
-
-}
 
 return pc;
 
@@ -1201,17 +1801,232 @@ return pc;
 
 
 /* =====================================================
-   MEMBER LIST
+   CONNECT PEER
 ===================================================== */
 
-function listenForMembers(){
+async function connectPeer(remoteId){
 
-membersRef=
-roomRef.child("members");
+if(
+remoteId===user.uid ||
+peerConnections[remoteId]
+){
 
-membersRef.on(
+return;
+
+}
+
+const pc=
+createPeer(remoteId);
+
+const shouldOffer=
+user.uid < remoteId;
+
+
+/*
+ * OFFER
+ */
+
+if(shouldOffer){
+
+const offer=
+await pc.createOffer();
+
+await pc.setLocalDescription(
+offer
+);
+
+await roomRef
+.child("signals")
+.child(remoteId)
+.child(user.uid)
+.child("offer")
+.set({
+
+type:offer.type,
+
+sdp:offer.sdp
+
+});
+
+}
+
+
+/*
+ * OFFER LISTENER
+ */
+
+roomRef
+.child("signals")
+.child(user.uid)
+.child(remoteId)
+.child("offer")
+.on(
 "value",
-snapshot=>{
+async snapshot=>{
+
+const offer=
+snapshot.val();
+
+if(
+!offer ||
+pc.currentRemoteDescription
+){
+
+return;
+
+}
+
+try{
+
+await pc.setRemoteDescription(
+new RTCSessionDescription(
+offer
+)
+);
+
+const answer=
+await pc.createAnswer();
+
+await pc.setLocalDescription(
+answer
+);
+
+await roomRef
+.child("signals")
+.child(remoteId)
+.child(user.uid)
+.child("answer")
+.set({
+
+type:answer.type,
+
+sdp:answer.sdp
+
+});
+
+}
+catch(error){
+
+log(
+"Offer error."
+);
+
+}
+
+}
+);
+
+
+/*
+ * ANSWER LISTENER
+ */
+
+roomRef
+.child("signals")
+.child(user.uid)
+.child(remoteId)
+.child("answer")
+.on(
+"value",
+async snapshot=>{
+
+const answer=
+snapshot.val();
+
+if(
+!answer ||
+pc.currentRemoteDescription
+){
+
+return;
+
+}
+
+try{
+
+await pc.setRemoteDescription(
+new RTCSessionDescription(
+answer
+)
+);
+
+}
+catch(error){
+
+log(
+"Answer error."
+);
+
+}
+
+}
+);
+
+
+/*
+ * ICE
+ */
+
+roomRef
+.child("signals")
+.child(user.uid)
+.child(remoteId)
+.child("candidates")
+.on(
+"child_added",
+async snapshot=>{
+
+try{
+
+await pc.addIceCandidate(
+new RTCIceCandidate(
+snapshot.val()
+)
+);
+
+}
+catch(e){}
+
+}
+);
+
+roomRef
+.child("signals")
+.child(remoteId)
+.child(user.uid)
+.child("candidates")
+.on(
+"child_added",
+async snapshot=>{
+
+try{
+
+await pc.addIceCandidate(
+new RTCIceCandidate(
+snapshot.val()
+)
+);
+
+}
+catch(e){}
+
+}
+);
+
+}
+
+
+/* =====================================================
+   MEMBERS
+===================================================== */
+
+function listenMembers(){
+
+roomRef
+.child("members")
+.on(
+"value",
+async snapshot=>{
 
 const members=
 snapshot.val()||{};
@@ -1258,43 +2073,32 @@ state.className="memberState";
 
 state.textContent=
 uid===user.uid
-?"You"
+?"You • Online"
 :"Online";
 
 info.appendChild(name);
 
 info.appendChild(state);
 
+row.appendChild(avatar);
+
+row.appendChild(info);
+
+
+if(uid===dataOwner()){
+
 const owner=
 document.createElement("span");
 
 owner.className="owner";
 
-if(uid===members.owner){
-owner.textContent="OWNER";
+owner.textContent=
+"OWNER";
+
+row.appendChild(owner);
+
 }
 
-if(uid===roomOwnerId()){
-owner.textContent="OWNER";
-}
-
-const avatarWrap=
-avatar;
-
-row.appendChild(
-avatarWrap
-);
-
-row.appendChild(
-info
-);
-
-row.appendChild(
-owner
-);
-
-
-/* KICK */
 
 if(
 isOwner &&
@@ -1309,9 +2113,7 @@ kick.className="kick";
 kick.textContent="KICK";
 
 kick.onclick=
-()=>{
-kickMember(uid);
-};
+()=>kickMember(uid);
 
 row.appendChild(kick);
 
@@ -1319,278 +2121,21 @@ row.appendChild(kick);
 
 membersBox.appendChild(row);
 
-}
-
-);
-
-}
-);
-
-}
-
-
-/* =====================================================
-   OWNER ID
-===================================================== */
-
-function roomOwnerId(){
-
-let owner=null;
-
-return owner;
-
-}
-
-
-/* =====================================================
-   KICK
-===================================================== */
-
-async function kickMember(uid){
-
-if(!isOwner){
-
-return;
-
-}
-
-if(!confirm(
-"Kick this device from the room?"
-)){
-
-return;
-
-}
-
-await roomRef
-.child("kicked")
-.child(uid)
-.set(true);
-
-await roomRef
-.child("members")
-.child(uid)
-.remove();
-
-showToast("Device kicked.");
-
-log(
-"🦶 Device "+
-uid.slice(0,6)+
-" kicked."
-);
-
-}
-
-
-/* =====================================================
-   KICK LISTENER
-===================================================== */
-
-function listenForKick(){
-
-roomRef
-.child("kicked")
-.child(user.uid)
-.on(
-"value",
-snapshot=>{
-
-if(snapshot.val()===true){
-
-alert(
-"You were kicked from this room."
-);
-
-cleanup();
-
-}
-
-}
-);
-
-}
-
-
-/* =====================================================
-   ROOM LOCK
-===================================================== */
-
-function listenForLock(){
-
-roomRef
-.child("locked")
-.on(
-"value",
-snapshot=>{
-
-isLocked=
-snapshot.val()===true;
-
-if(isOwner){
-
-lockButton.textContent=
-isLocked
-?"🔒 Room Locked"
-:"🔓 Room Open";
-
-lockButton.className=
-isLocked
-?"control locked"
-:"control";
-
-}
-
-}
-);
-
-}
-
-
-/* =====================================================
-   CREATE ROOM
-===================================================== */
-
-async function createRoom(){
-
-isOwner=true;
-
-roomRef=
-db.ref(
-"walkieRooms/"+roomCode
-);
-
-await roomRef.set({
-
-owner:user.uid,
-
-createdAt:
-firebase.database.ServerValue.TIMESTAMP,
-
-locked:false,
-
-members:{
-[user.uid]:{
-name:"My Device",
-joinedAt:
-firebase.database.ServerValue.TIMESTAMP
-}
-}
-
 });
 
-log("👑 You are the room owner.");
 
-listenForMembers();
-
-listenForKick();
-
-listenForLock();
-
-setStatus(
-"Waiting for devices...",
-"yellow"
-);
-
-talkStatus.textContent=
-"Waiting for another device...";
-
-}
-
-
-/* =====================================================
-   JOIN EXISTING ROOM
-===================================================== */
-
-async function joinExisting(){
-
-isOwner=false;
-
-roomRef=
-db.ref(
-"walkieRooms/"+roomCode
-);
-
-const snap=
-await roomRef.once("value");
-
-const data=
-snap.val();
-
-if(!data){
-
-throw new Error(
-"Room disappeared."
-);
-
-}
-
-if(
-data.locked
-){
-
-throw new Error(
-"This room is locked."
-);
-
-}
-
-await roomRef
-.child("members")
-.child(user.uid)
-.set({
-
-name:"My Device",
-
-joinedAt:
-firebase.database.ServerValue.TIMESTAMP
-
-});
-
-listenForMembers();
-
-listenForKick();
-
-listenForLock();
-
-setStatus(
-"Joining room...",
-"yellow"
-);
-
-log(
-"📻 Joined existing room."
-);
-
-}
-
-
-/* =====================================================
-   SIMPLE MULTI PEER SIGNALING
-===================================================== */
-
-async function connectToMembers(){
-
-const snap=
-await roomRef
-.child("members")
-.once("value");
-
-const members=
-snap.val()||{};
+/*
+ * Connect to everybody.
+ */
 
 for(
 const uid of Object.keys(members)
 ){
 
 if(
-uid===user.uid ||
-peerConnections[uid]
+uid!==user.uid &&
+!peerConnections[uid]
 ){
-
-continue;
-
-}
 
 await connectPeer(uid);
 
@@ -1598,214 +2143,6 @@ await connectPeer(uid);
 
 }
 
-
-/* =====================================================
-   CONNECT PEER
-===================================================== */
-
-async function connectPeer(remoteId){
-
-const pc=
-createPeer(remoteId);
-
-
-/*
- * Determine which device creates
- * the offer using UID ordering.
- */
-
-const shouldOffer=
-user.uid < remoteId;
-
-if(shouldOffer){
-
-const offer=
-await pc.createOffer();
-
-await pc.setLocalDescription(
-offer
-);
-
-await roomRef
-.child("signals")
-.child(remoteId)
-.child(user.uid)
-.child("offer")
-.set({
-
-type:offer.type,
-sdp:offer.sdp
-
-});
-
-}
-
-
-/*
- * Listen for offer.
- */
-
-roomRef
-.child("signals")
-.child(user.uid)
-.child(remoteId)
-.child("offer")
-.on(
-"value",
-async snapshot=>{
-
-const offer=
-snapshot.val();
-
-if(
-!offer ||
-pc.currentRemoteDescription
-){
-
-return;
-
-}
-
-await pc.setRemoteDescription(
-new RTCSessionDescription(
-offer
-)
-);
-
-const answer=
-await pc.createAnswer();
-
-await pc.setLocalDescription(
-answer
-);
-
-await roomRef
-.child("signals")
-.child(remoteId)
-.child(user.uid)
-.child("answer")
-.set({
-
-type:answer.type,
-sdp:answer.sdp
-
-});
-
-}
-);
-
-
-/*
- * Listen for answer.
- */
-
-roomRef
-.child("signals")
-.child(user.uid)
-.child(remoteId)
-.child("answer")
-.on(
-"value",
-async snapshot=>{
-
-const answer=
-snapshot.val();
-
-if(
-!answer ||
-pc.currentRemoteDescription
-){
-
-return;
-
-}
-
-await pc.setRemoteDescription(
-new RTCSessionDescription(
-answer
-)
-);
-
-}
-);
-
-
-/*
- * Candidate listeners.
- */
-
-roomRef
-.child("signals")
-.child(user.uid)
-.child(remoteId)
-.child("candidates")
-.on(
-"child_added",
-async snapshot=>{
-
-try{
-
-await pc.addIceCandidate(
-new RTCIceCandidate(
-snapshot.val()
-)
-);
-
-}
-catch(e){}
-
-}
-);
-
-
-roomRef
-.child("signals")
-.child(remoteId)
-.child(user.uid)
-.child("candidates")
-.on(
-"child_added",
-async snapshot=>{
-
-try{
-
-await pc.addIceCandidate(
-new RTCIceCandidate(
-snapshot.val()
-)
-);
-
-}
-catch(e){}
-
-}
-);
-
-}
-
-
-/* =====================================================
-   WATCH MEMBERS
-===================================================== */
-
-function watchMembers(){
-
-roomRef
-.child("members")
-.on(
-"value",
-async snapshot=>{
-
-const members=
-snapshot.val()||{};
-
-if(!members[user.uid]){
-
-return;
-
-}
-
-await connectToMembers();
 
 const count=
 Object.keys(members).length;
@@ -1825,7 +2162,6 @@ talkStatus.textContent=
 "Ready";
 
 }
-
 else{
 
 setStatus(
@@ -1834,9 +2170,6 @@ setStatus(
 );
 
 talkButton.disabled=true;
-
-talkStatus.textContent=
-"Waiting for another device...";
 
 }
 
@@ -1847,11 +2180,260 @@ talkStatus.textContent=
 
 
 /* =====================================================
-   JOIN
+   OWNER
+===================================================== */
+
+function dataOwner(){
+
+return window.roomOwner||null;
+
+}
+
+
+/* =====================================================
+   CREATE ROOM
+===================================================== */
+
+async function createRoom(){
+
+isOwner=true;
+
+window.roomOwner=
+user.uid;
+
+roomRef=
+db.ref(
+"walkieRooms/"+roomCode
+);
+
+await roomRef.set({
+
+owner:user.uid,
+
+createdAt:
+firebase.database.ServerValue.TIMESTAMP,
+
+locked:false,
+
+members:{
+
+[user.uid]:{
+
+name:"My Device",
+
+joinedAt:
+firebase.database.ServerValue.TIMESTAMP
+
+}
+
+}
+
+});
+
+log("👑 You own this room.");
+
+listenMembers();
+
+listenKick();
+
+listenLock();
+
+}
+
+
+/* =====================================================
+   JOIN ROOM
+===================================================== */
+
+async function joinExisting(){
+
+const snap=
+await roomRef.once("value");
+
+const data=
+snap.val();
+
+if(!data){
+
+throw new Error(
+"Room no longer exists."
+);
+
+}
+
+if(data.locked){
+
+throw new Error(
+"This room is locked."
+);
+
+}
+
+window.roomOwner=
+data.owner;
+
+isOwner=
+data.owner===user.uid;
+
+await roomRef
+.child("members")
+.child(user.uid)
+.set({
+
+name:"My Device",
+
+joinedAt:
+firebase.database.ServerValue.TIMESTAMP
+
+});
+
+listenMembers();
+
+listenKick();
+
+listenLock();
+
+log("📻 Joined room.");
+
+}
+
+
+/* =====================================================
+   KICK
+===================================================== */
+
+async function kickMember(uid){
+
+if(!isOwner){
+
+return;
+
+}
+
+if(
+!confirm(
+"Kick this device?"
+)
+){
+
+return;
+
+}
+
+await roomRef
+.child("kicked")
+.child(uid)
+.set(true);
+
+await roomRef
+.child("members")
+.child(uid)
+.remove();
+
+showToast(
+"Device kicked."
+);
+
+log(
+"🦶 Kicked "+
+uid.slice(0,6)
+);
+
+}
+
+
+/* =====================================================
+   KICK LISTENER
+===================================================== */
+
+function listenKick(){
+
+roomRef
+.child("kicked")
+.child(user.uid)
+.on(
+"value",
+snapshot=>{
+
+if(
+snapshot.val()===true
+){
+
+alert(
+"You were kicked from this room."
+);
+
+cleanup();
+
+}
+
+}
+);
+
+}
+
+
+/* =====================================================
+   LOCK
+===================================================== */
+
+function listenLock(){
+
+roomRef
+.child("locked")
+.on(
+"value",
+snapshot=>{
+
+isLocked=
+snapshot.val()===true;
+
+lockButton.textContent=
+isLocked
+?"🔒 Room Locked"
+:"🔓 Room Open";
+
+if(!isOwner){
+
+lockButton.disabled=true;
+
+}
+
+}
+);
+
+}
+
+
+/* =====================================================
+   LOCK BUTTON
+===================================================== */
+
+lockButton.onclick=
+async()=>{
+
+if(!isOwner){
+
+return;
+
+}
+
+isLocked=
+!isLocked;
+
+await roomRef
+.child("locked")
+.set(isLocked);
+
+};
+
+
+/* =====================================================
+   JOIN BUTTON
 ===================================================== */
 
 joinButton.onclick=
-async function(){
+async()=>{
 
 const code=
 roomInput.value
@@ -1872,11 +2454,11 @@ return;
 
 }
 
-roomCode=code;
-
 joinButton.disabled=true;
 
 randomButton.disabled=true;
+
+roomCode=code;
 
 setStatus(
 "Starting...",
@@ -1887,7 +2469,12 @@ try{
 
 await authenticate();
 
-await getMicrophone();
+/*
+ * Get microphone during the
+ * user gesture for Safari.
+ */
+
+await getAudio();
 
 roomDisplay.textContent=
 roomCode;
@@ -1905,12 +2492,10 @@ db.ref(
 "walkieRooms/"+roomCode
 );
 
-const snap=
+const snapshot=
 await roomRef.once("value");
 
-if(
-snap.exists()
-){
+if(snapshot.exists()){
 
 await joinExisting();
 
@@ -1920,8 +2505,6 @@ else{
 await createRoom();
 
 }
-
-watchMembers();
 
 }
 catch(error){
@@ -1945,7 +2528,7 @@ randomButton.disabled=false;
 
 
 /* =====================================================
-   RANDOM ROOM
+   RANDOM
 ===================================================== */
 
 randomButton.onclick=
@@ -1971,7 +2554,8 @@ Math.random()*chars.length
 
 }
 
-roomInput.value=code;
+roomInput.value=
+code;
 
 };
 
@@ -1997,7 +2581,7 @@ showToast(
 catch(e){
 
 showToast(
-"Room: "+roomCode
+roomCode
 );
 
 }
@@ -2014,15 +2598,7 @@ function startTalking(e){
 e.preventDefault();
 
 if(
-!peerConnections ||
-Object.keys(peerConnections).length===0
-){
-
-return;
-
-}
-
-if(
+talkButton.disabled ||
 isMuted ||
 isTalking
 ){
@@ -2062,11 +2638,15 @@ track.enabled=true;
 function stopTalking(e){
 
 if(e){
+
 e.preventDefault();
+
 }
 
 if(!isTalking){
+
 return;
+
 }
 
 isTalking=false;
@@ -2096,10 +2676,6 @@ track.enabled=false;
 
 }
 
-
-/* =====================================================
-   TOUCH / POINTER
-===================================================== */
 
 talkButton.addEventListener(
 "pointerdown",
@@ -2139,14 +2715,14 @@ isMuted=
 
 if(isMuted){
 
+stopTalking();
+
 muteButton.textContent=
 "🔇 Mic Muted";
 
 muteButton.classList.add(
 "danger"
 );
-
-stopTalking();
 
 }
 else{
@@ -2159,39 +2735,6 @@ muteButton.classList.remove(
 );
 
 }
-
-};
-
-
-/* =====================================================
-   LOCK
-===================================================== */
-
-lockButton.onclick=
-async()=>{
-
-if(!isOwner){
-
-showToast(
-"Only the owner can lock the room."
-);
-
-return;
-
-}
-
-const newState=
-!isLocked;
-
-await roomRef
-.child("locked")
-.set(newState);
-
-showToast(
-newState
-?"Room locked"
-:"Room unlocked"
-);
 
 };
 
@@ -2210,7 +2753,7 @@ Number(volume.value);
 
 
 /* =====================================================
-   CLEAR LOG
+   CLEAR
 ===================================================== */
 
 clearButton.onclick=
@@ -2240,7 +2783,9 @@ cleanup();
 async function cleanup(){
 
 if(cleanupDone){
+
 return;
+
 }
 
 cleanupDone=true;
@@ -2255,13 +2800,19 @@ meterAnimation
 
 }
 
-if(membersRef){
-
-membersRef.off();
-
-}
-
 if(roomRef){
+
+roomRef
+.child("members")
+.child(user?.uid||"")
+.remove()
+.catch(
+()=>{}
+);
+
+roomRef
+.child("members")
+.off();
 
 roomRef
 .child("kicked")
@@ -2272,26 +2823,25 @@ roomRef
 .child("locked")
 .off();
 
-roomRef
-.child("members")
-.off();
-
 }
+
 
 for(
 const pc of Object.values(
 peerConnections
-)
-){
+)){
 
 try{
+
 pc.close();
+
 }
 catch(e){}
 
 }
 
 peerConnections={};
+
 
 if(localStream){
 
@@ -2308,15 +2858,21 @@ track.stop();
 if(audioContext){
 
 try{
+
 await audioContext.close();
+
 }
 catch(e){}
 
 }
 
+localStream=null;
+
+remoteVideo.srcObject=null;
+
 remoteAudio.srcObject=null;
 
-localStream=null;
+localVideo.srcObject=null;
 
 roomRef=null;
 
@@ -2325,6 +2881,8 @@ roomCode="";
 isOwner=false;
 
 isLocked=false;
+
+cameraEnabled=false;
 
 joinScreen.classList.remove(
 "hidden"
@@ -2339,6 +2897,11 @@ joinButton.disabled=false;
 randomButton.disabled=false;
 
 talkButton.disabled=true;
+
+cameraButton.textContent=
+"📹 Camera";
+
+flipButton.disabled=true;
 
 setStatus(
 "Not connected"
@@ -2355,7 +2918,7 @@ cleanupDone=false;
 
 
 /* =====================================================
-   PAGE SAFETY
+   SAFARI VISIBILITY
 ===================================================== */
 
 document.addEventListener(
@@ -2368,8 +2931,7 @@ stopTalking();
 
 }
 
-}
-);
+});
 
 
 /* =====================================================
@@ -2377,7 +2939,7 @@ stopTalking();
 ===================================================== */
 
 log(
-"📻 Web Walkie v2 loaded."
+"📻 Web Walkie Camera Edition loaded."
 );
 
 log(
