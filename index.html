@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Web Walkie Camera</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      margin: 0;
+      background: #080b10;
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .box {
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 30px;
+      margin: 15px 0 5px;
+    }
+    .sub {
+      color: #8993a0;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      height: 55px;
+      border-radius: 14px;
+      border: 1px solid #303946;
+      background: #111720;
+      color: white;
+      padding: 0 15px;
+      font-size: 18px;
+      text-align: center;
+      outline: none;
+      text-transform: uppercase;
+    }
+    button {
+      width: 100%;
+      height: 55px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 14px;
+      color: white;
+      background: #5865f2;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    button.red {
+      background: #e53950;
+    }
+    button.gray {
+      background: #29323d;
+    }
+    button:disabled {
+      opacity: .5;
+    }
+    video {
+      width: 100%;
+      background: black;
+      border-radius: 18px;
+      margin-top: 15px;
+      display: block;
+    }
+    #localVideo {
+      max-height: 350px;
+      object-fit: cover;
+    }
+    #remoteVideo {
+      max-height: 500px;
+      object-fit: contain;
+    }
+    .status {
+      margin: 15px 0;
+      padding: 12px;
+      border-radius: 12px;
+      background: #111720;
+      color: #aeb8c4;
+      font-weight: 700;
+    }
+    .room {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      margin: 10px;
+    }
+    .hidden {
+      display: none !important;
+    }
+    .label {
+      margin-top: 18px;
+      color: #778290;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h1>📻 Web Walkie</h1>
+  <div class="sub">
+    Live camera over WebRTC
+  </div>
+  <!-- JOIN -->
+  <div id="joinPage">
+    <div class="label">
+      Room Code
+    </div>
+    <input
+      id="roomCode"
+      maxlength="12"
+      placeholder="ABC123"
+      autocomplete="off"
+      autocapitalize="characters"
+    >
+    <button id="joinButton">
+      JOIN ROOM
+    </button>
+  </div>
+  <!-- ROOM -->
+  <div id="roomPage" class="hidden">
+    <div class="status" id="status">
+      Connected
+    </div>
+    <div class="label">
+      Room
+    </div>
+    <div class="room" id="roomDisplay"></div>
+    <!-- REMOTE CAMERA -->
+    <div class="label">
+      Live Camera
+    </div>
+    <video
+      id="remoteVideo"
+      autoplay
+      playsinline
+      webkit-playsinline
+      controls="false">
+    </video>
+    <!-- LOCAL CAMERA -->
+    <div class="label">
+      Your Camera
+    </div>
+    <video
+      id="localVideo"
+      autoplay
+      muted
+      playsinline
+      webkit-playsinline>
+    </video>
+    <button id="cameraButton">
+      📹 START CAMERA
+    </button>
+    <button id="stopCameraButton"
+            class="red"
+            disabled>
+      🛑 STOP CAMERA
+    </button>
+    <button id="leaveButton"
+            class="gray">
+      LEAVE ROOM
+    </button>
+  </div>
+</div>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+<script>
+/* =========================================================
+   FIREBASE
+========================================================= */
+const firebaseConfig = {
+  apiKey:
+    "AIzaSyAwziMLKnyFi8of5AbS3NXOmVQwo1Ngn5M",
+  authDomain:
+    "web-walkie-talkie-eb91f.firebaseapp.com",
+  databaseURL:
+    "https://web-walkie-talkie-eb91f-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:
+    "web-walkie-talkie-eb91f",
+  storageBucket:
+    "web-walkie-talkie-eb91f.firebasestorage.app",
+  messagingSenderId:
+    "174542114980",
+  appId:
+    "1:174542114980:web:f4a48ec7fe322030bdd631"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+/* =========================================================
+   WEBRTC
+========================================================= */
+const rtcConfig = {
+  iceServers: [
+    {
+      urls: "stun:stun.l.google.com:19302"
+    },
+    {
+      urls: "stun:stun1.l.google.com:19302"
+    }
+  ]
+};
+/* =========================================================
+   STATE
+========================================================= */
+let user = null;
+let room = null;
+let roomRef = null;
+let localStream = null;
+let peer = null;
+let isHost = false;
+/* =========================================================
+   ELEMENTS
+========================================================= */
+const joinPage =
+  document.getElementById("joinPage");
+const roomPage =
+  document.getElementById("roomPage");
+const roomCodeInput =
+  document.getElementById("roomCode");
+const joinButton =
+  document.getElementById("joinButton");
+const roomDisplay =
+  document.getElementById("roomDisplay");
+const status =
+  document.getElementById("status");
+const localVideo =
+  document.getElementById("localVideo");
+const remoteVideo =
+  document.getElementById("remoteVideo");
+const cameraButton =
+  document.getElementById("cameraButton");
+const stopCameraButton =
+  document.getElementById("stopCameraButton");
+const leaveButton =
+  document.getElementById("leaveButton");
+/* =========================================================
+   LOGIN
+========================================================= */
+async function login() {
+  if (auth.currentUser) {
+    user = auth.currentUser;
+    return;
+  }
+  const result =
+    await auth.signInAnonymously();
+  user = result.user;
+}
+/* =========================================================
+   CREATE WEBRTC CONNECTION
+========================================================= */
+function createPeer() {
+  if (peer) {
+    return peer;
+  }
+  peer =
+    new RTCPeerConnection(
+      rtcConfig
+    );
+  /*
+   * AUDIO
+   *
+   * We create the audio/video
+   * transceivers immediately.
+   */
+  peer.addTransceiver(
+    "audio",
+    {
+      direction: "recvonly"
+    }
+  );
+  /*
+   * VIDEO
+   *
+   * This is the important part.
+   *
+   * The video connection exists BEFORE
+   * the camera is turned on.
+   */
+  peer.addTransceiver(
+    "video",
+    {
+      direction: "sendrecv"
+    }
+  );
+  /*
+   * REMOTE VIDEO
+   */
+  peer.ontrack = function(event) {
+    console.log(
+      "Received:",
+      event.track.kind
+    );
+    if (
+      event.track.kind === "video"
+    ) {
+      remoteVideo.srcObject =
+        event.streams[0];
+      remoteVideo.play()
+        .catch(() => {});
+      status.textContent =
+        "📹 LIVE CAMERA CONNECTED";
+    }
+  };
+  /*
+   * ICE
+   */
+  peer.onicecandidate =
+    function(event) {
+      if (!event.candidate) {
+        return;
+      }
+      roomRef
+        .child("ice")
+        .child(user.uid)
+        .push(
+          event.candidate.toJSON()
+        );
+    };
+  peer.onconnectionstatechange =
+    function() {
+      console.log(
+        "WebRTC:",
+        peer.connectionState
+      );
+      if (
+        peer.connectionState ===
+        "connected"
+      ) {
+        status.textContent =
+          "🟢 WEBRTC CONNECTED";
+      }
+      if (
+        peer.connectionState ===
+        "failed"
+      ) {
+        status.textContent =
+          "❌ WEBRTC FAILED";
+      }
+    };
+  return peer;
+}
+/* =========================================================
+   ADD ICE
+========================================================= */
+function listenForICE() {
+  roomRef
+    .child("ice")
+    .on(
+      "child_added",
+      async function(snapshot) {
+        const fromUser =
+          snapshot.key;
+        if (
+          fromUser === user.uid
+        ) {
+          return;
+        }
+        const candidates =
+          snapshot.val();
+        if (!candidates) {
+          return;
+        }
+        for (
+          const candidate
+          of Object.values(candidates)
+        ) {
+          try {
+            await peer.addIceCandidate(
+              new RTCIceCandidate(
+                candidate
+              )
+            );
+          }
+          catch(error) {
+            console.log(
+              "ICE error",
+              error
+            );
+          }
+        }
+      }
+    );
+}
+/* =========================================================
+   HOST
+========================================================= */
+async function becomeHost() {
+  isHost = true;
+  createPeer();
+  /*
+   * Create offer with the VIDEO
+   * transceiver already included.
+   */
+  const offer =
+    await peer.createOffer();
+  await peer.setLocalDescription(
+    offer
+  );
+  await roomRef
+    .child("offer")
+    .set({
+      type: offer.type,
+      sdp: offer.sdp
+    });
+  status.textContent =
+    "🟡 WAITING FOR PHONE...";
+  /*
+   * Wait for answer.
+   */
+  roomRef
+    .child("answer")
+    .on(
+      "value",
+      async function(snapshot) {
+        const answer =
+          snapshot.val();
+        if (!answer) {
+          return;
+        }
+        if (
+          peer.signalingState !==
+          "have-local-offer"
+        ) {
+          return;
+        }
+        await peer.setRemoteDescription(
+          new RTCSessionDescription(
+            answer
+          )
+        );
+        status.textContent =
+          "🟢 PHONE CONNECTED";
+      }
+    );
+}
+/* =========================================================
+   VIEWER
+========================================================= */
+async function becomeViewer() {
+  isHost = false;
+  createPeer();
+  /*
+   * Get host offer.
+   */
+  const snapshot =
+    await roomRef
+      .child("offer")
+      .once("value");
+  const offer =
+    snapshot.val();
+  if (!offer) {
+    status.textContent =
+      "Waiting for camera device...";
+    /*
+     * Wait for offer.
+     */
+    roomRef
+      .child("offer")
+      .on(
+        "value",
+        async function(snap) {
+          const newOffer =
+            snap.val();
+          if (!newOffer) {
+            return;
+          }
+          await acceptOffer(
+            newOffer
+          );
+        }
+      );
+  }
+  else {
+    await acceptOffer(
+      offer
+    );
+  }
+}
+/* =========================================================
+   ACCEPT OFFER
+========================================================= */
+async function acceptOffer(offer) {
+  if (
+    peer.signalingState !==
+    "stable"
+  ) {
+    return;
+  }
+  await peer.setRemoteDescription(
+    new RTCSessionDescription(
+      offer
+    )
+  );
+  const answer =
+    await peer.createAnswer();
+  await peer.setLocalDescription(
+    answer
+  );
+  await roomRef
+    .child("answer")
+    .set({
+      type: answer.type,
+      sdp: answer.sdp
+    });
+  status.textContent =
+    "🟢 CONNECTED TO CAMERA";
+}
+/* =========================================================
+   JOIN ROOM
+========================================================= */
+joinButton.onclick =
+async function() {
+  const code =
+    roomCodeInput.value
+      .trim()
+      .toUpperCase()
+      .replace(
+        /[^A-Z0-9]/g,
+        ""
+      );
+  if (!code) {
+    alert(
+      "Enter a room code."
+    );
+    return;
+  }
+  joinButton.disabled = true;
+  try {
+    /*
+     * IMPORTANT:
+     *
+     * Authentication happens first.
+     */
+    await login();
+    room = code;
+    roomRef =
+      db.ref(
+        "cameraRooms/" +
+        room
+      );
+    const existing =
+      await roomRef.once(
+        "value"
+      );
+    if (!existing.exists()) {
+      /*
+       * First device = camera host.
+       */
+      await roomRef.set({
+        host: user.uid,
+        created:
+          firebase.database.ServerValue.TIMESTAMP
+      });
+      isHost = true;
+    }
+    else {
+      /*
+       * Second device = viewer.
+       */
+      isHost = false;
+    }
+    joinPage.classList.add(
+      "hidden"
+    );
+    roomPage.classList.remove(
+      "hidden"
+    );
+    roomDisplay.textContent =
+      room;
+    createPeer();
+    listenForICE();
+    if (isHost) {
+      await becomeHost();
+    }
+    else {
+      await becomeViewer();
+    }
+  }
+  catch(error) {
+    console.error(error);
+    alert(
+      "Could not join room:\n\n" +
+      error.message
+    );
+    joinButton.disabled = false;
+  }
+};
+/* =========================================================
+   START CAMERA
+========================================================= */
+cameraButton.onclick =
+async function() {
+  try {
+    /*
+     * This MUST happen directly from
+     * the button press for iPad Safari.
+     */
+    localStream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          video: {
+            facingMode: "user",
+            width: {
+              ideal: 1280
+            },
+            height: {
+              ideal: 720
+            },
+            frameRate: {
+              ideal: 30
+            }
+          },
+          audio: false
+        });
+    /*
+     * Show camera locally.
+     */
+    localVideo.srcObject =
+      localStream;
+    await localVideo.play();
+    /*
+     * Put camera track into the
+     * already-negotiated WebRTC
+     * video sender.
+     */
+    const videoSender =
+      peer
+        .getTransceivers()
+        .find(
+          t =>
+            t.receiver &&
+            t.receiver.track &&
+            t.receiver.track.kind ===
+            "video"
+        );
+    if (!videoSender) {
+      throw new Error(
+        "WebRTC video channel was not created."
+      );
+    }
+    const videoTrack =
+      localStream
+        .getVideoTracks()[0];
+    await videoSender
+      .sender
+      .replaceTrack(
+        videoTrack
+      );
+    cameraButton.disabled =
+      true;
+    stopCameraButton.disabled =
+      false;
+    status.textContent =
+      "📹 CAMERA LIVE";
+  }
+  catch(error) {
+    console.error(error);
+    alert(
+      "Camera could not start:\n\n" +
+      error.name +
+      "\n\n" +
+      error.message
+    );
+  }
+};
+/* =========================================================
+   STOP CAMERA
+========================================================= */
+stopCameraButton.onclick =
+async function() {
+  if (!localStream) {
+    return;
+  }
+  const videoTrack =
+    localStream
+      .getVideoTracks()[0];
+  if (videoTrack) {
+    const transceiver =
+      peer
+        .getTransceivers()
+        .find(
+          t =>
+            t.receiver &&
+            t.receiver.track &&
+            t.receiver.track.kind ===
+            "video"
+        );
+    if (transceiver) {
+      await transceiver
+        .sender
+        .replaceTrack(null);
+    }
+    videoTrack.stop();
+  }
+  localStream = null;
+  localVideo.srcObject = null;
+  cameraButton.disabled =
+    false;
+  stopCameraButton.disabled =
+    true;
+  status.textContent =
+    "Camera stopped";
+};
+/* =========================================================
+   LEAVE
+========================================================= */
+leaveButton.onclick =
+async function() {
+  try {
+    if (localStream) {
+      localStream
+        .getTracks()
+        .forEach(
+          track =>
+            track.stop()
+        );
+    }
+    if (peer) {
+      peer.close();
+    }
+    if (roomRef && isHost) {
+      await roomRef.remove();
+    }
+  }
+  catch(error) {
+    console.log(error);
+  }
+  location.reload();
+};
+</script>
+</body>
+</html>
